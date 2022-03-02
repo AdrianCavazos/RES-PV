@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <p><?php  echo $today ."\n". $total ."\n". $cartNumber?></p>
+        <br>
+        <table border="1px">
+            <tr>
+                <td>id venta</td>
+                <td>id producto</td>
+                <td>cantidad</td>
+                <td>id venta</td>
+                <td>id carro</td>
+                <td>id producto</td>
+                <td>nombre producto</td>
+                <td>descripcion del prodcuto</td>
+                <td>precio unitario</td>
+                <td>costo</td>
+                <td>codigo del producto</td>
+                <td>Existencia</td>
+            </tr>
+            <?php
+                while ($row = mysqli_fetch_array($data)) {
+            ?>
+                <tr>
+                    <td><?php echo $row['id_sellDetail']; ?></td>
+                    <td><?php echo $row['id_product']; ?></td>
+                    <td><?php echo $row['quantity_sellDetail']; ?></td>
+                    <td><?php echo $row['id_sell']; ?></td>
+                    <td><?php echo $row['id_cart']; ?></td>
+                    <td><?php echo $row['id_product']; ?></td>
+                    <td><?php echo $row['name_product']; ?></td>
+                    <td><?php echo $row['description_product']; ?></td>
+                    <td><?php echo $row['unitaryPrice_product']; ?></td>
+                    <td><?php echo $row['cost_product']; ?></td>
+                    <td><?php echo $row['code_product']; ?></td>
+                    <td><?php echo $row['id_productExistance']; ?></td>
+                </tr>
+            <?php
+                }
+            ?>
+        </table>
+    </body>
+    </html>
