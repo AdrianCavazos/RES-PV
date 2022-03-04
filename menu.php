@@ -42,7 +42,7 @@ $ModeloMenu = new Menu();
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">El portón de doña Anita <sup>Admin</sup></div>
+                <div class="sidebar-brand-text mx-3">Res-PV<sup>Admin</sup></div>
             </a>
 
             <!-- Divider -->
@@ -148,10 +148,10 @@ $ModeloMenu = new Menu();
                                 <br>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" placeholder="Costo Unitario" name="costo">
+                                        <input type="text" class="form-control" placeholder="Costo" name="costo">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Precio" name="precio">
+                                        <input type="text" class="form-control" placeholder="Precio de venta" name="precio">
                                     </div>
                                 </div>
                                 <input type ="submit" class="btn btn-primary btn-user btn-block" value="Registrar Platillo">
@@ -172,8 +172,8 @@ $ModeloMenu = new Menu();
                                     <td>Producto</td>
                                     <td>Descripcion</td>
                                     <td>Marca</td>
-                                    <td>Precio Unitario</td>
                                     <td>Costo</td>
+                                    <td>Precio de venta</td>
                                     <td>Existencia</td>
                                 </tr>
                                 <?php
@@ -186,8 +186,8 @@ $ModeloMenu = new Menu();
                                         <td><?php echo $platillo['name_product'];?></td>
                                         <td><?php echo $platillo['description_product'];?></td>
                                         <td><?php echo $platillo['mark_product'];?></td>
-                                        <td><?php echo $platillo['unitaryPrice_product'];?></td>
                                         <td><?php echo $platillo['cost_product'];?></td>
+                                        <td><?php echo $platillo['unitaryPrice_product'];?></td>
                                         
                                         <td>
                                             <?php 

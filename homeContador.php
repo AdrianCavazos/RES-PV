@@ -35,7 +35,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">El portón de doña Anita <sup>Contador</sup></div>
+                <div class="sidebar-brand-text mx-3">Res-PV<sup>Contador</sup></div>
             </a>
 
             <!-- Divider -->

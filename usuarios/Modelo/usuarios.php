@@ -22,7 +22,7 @@
         }
 
         public function addUser($name,$lname,$email,$phone,$userType,$password){
-            $statement = $this->db->prepare("INSERT INTO user (name_user, lname_user, phone_user, email_user, pass_user, id_userType) VALUES (:name, :lname, :phone, :email, :password, :userType)");
+            $statement = $this->db->prepare("INSERT INTO user (name_user, lname_user, phone_user, email_user, pass_user, userType) VALUES (:name, :lname, :phone, :email, :password, :userType)");
             $statement->bindParam(':name', $name);
             $statement->bindParam(':lname', $lname);
             $statement->bindParam(':email', $email);
