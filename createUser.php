@@ -142,17 +142,9 @@ $ModeloUsuarios = new Usuarios();
                                 </div>
                                 <div class="form group">
                                     <select class="form-control" name="userType">
-                                        <?php
-                                            $user = $ModeloUsuarios->getUserType();
-                                            if($user != null){
-                                                foreach($user as $us){
-                                                
-                                        ?>
-                                        <option value="<?php echo $us['id_userType']; ?>"><?php echo $us['name_userType']; ?></option>
-                                        <?php 
-                                                }
-                                            }
-                                        ?>
+                                        <option value="1"><?php echo 'Administrador'; ?></option>
+                                        <option value="2"><?php echo 'Mesero'; ?></option>
+                                        <option value="3"><?php echo 'Contador'; ?></option>
                                     </select> 
                                 </div>
                                 <br>
@@ -192,11 +184,11 @@ $ModeloUsuarios = new Usuarios();
                                         <td><?php echo $usuario['email_user'];?></td>
                                         <td>
                                             <?php 
-                                                if ($usuario['id_userType']==6) {
-                                                    echo "Mesero";
+                                                if ($usuario['userType']==1) {
+                                                    echo "Administrador";
                                                 }else{
-                                                    if ($usuario['id_userType']==5) {
-                                                        echo "Administrador";
+                                                    if ($usuario['userType']==2) {
+                                                        echo "Mesero";
                                                     }else{
                                                         echo "Contador";
                                                     }

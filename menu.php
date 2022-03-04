@@ -1,3 +1,10 @@
+<?php
+
+require_once("menu/Modelo/menu.php");
+
+$ModeloMenu = new Menu();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -117,7 +124,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <form class="user" action="" method="POST">
+                            <form class="user" action="menu/Controlador/addPlatillo.php" method="POST">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Nombre del platillo" name="nombre">
                                 </div>
@@ -132,17 +139,10 @@
                                 </div>
                                 <div class="form group">
                                     <select class="form-control" name="existencia">
-                                        <?php
-                                            include "db.php";
-                                            $consul = "SELECT * FROM productexistance";
-                                            $res = mysqli_query($conn,$consul);
-                                            $rowType = mysqli_num_rows($res);
-                                            while ($rowType=mysqli_fetch_array($res)) {
-                                        ?>
-                                                <option value="<?php echo $rowType['id_productExistance']; ?>"><?php echo $rowType['name_productExistance']; ?></option>
-                                        <?php   
-                                            }
-                                        ?>
+                                    
+                                        <option value="1"><?php echo 'En existencia'; ?></option>
+                                        <option value="0"><?php echo 'Sin existencia'; ?></option>
+                                        
                                     </select>
                                 </div>
                                 <br>
@@ -157,19 +157,7 @@
                                 <input type ="submit" class="btn btn-primary btn-user btn-block" value="Registrar Platillo">
                                 <hr>
                             </form>
-                            <?php
-                                if (isset($_POST['nombre'])) {
-                                    $name           = $_POST['nombre'];
-                                    $descripcion    = $_POST['descripcion'];
-                                    $marca          = $_POST['marca'];
-                                    $codigo         = $_POST['codigo'];
-                                    $existencia     = $_POST['existencia'];
-                                    $costo          = $_POST['costo'];
-                                    $precio         = $_POST['precio'];
-                                    $insert = "INSERT INTO `product`(`name_product`, `description_product`, `mark_product`, `unitaryPrice_product`, `cost_product`, `code_product`, `id_productExistance`) VALUES ('".$name."','".$descripcion."','".$marca."','$precio','$costo','".$codigo."','$existencia')"; 
-                                    mysqli_query($conn,$insert);
-                                }
-                            ?>
+                            
                         </div>
                     </div>
                     <hr>
@@ -189,22 +177,35 @@
                                     <td>Existencia</td>
                                 </tr>
                                 <?php
-                                    $query = "SELECT a.id_product, a.name_product, a.description_product, a.mark_product, a.unitaryPrice_product, a.cost_product, b.name_productExistance FROM product a INNER JOIN productexistance b ON a.id_productExistance = b.id_productExistance";
-                                    $result = mysqli_query($conn,$query);
-                                    $row = mysqli_num_rows($result);
-                                    while ($row = mysqli_fetch_array($result)) {
+                                    $platillos = $ModeloMenu->get();
+                                    if($platillos != null){
+                                        foreach($platillos as $platillo){
                                 ?>
                                     <tr>
-                                        <td><?php echo $row['id_product'];?></td>
-                                        <td><?php echo $row['name_product'];?></td>
-                                        <td><?php echo $row['description_product'];?></td>
-                                        <td><?php echo $row['mark_product'];?></td>
-                                        <td><?php echo $row['unitaryPrice_product'];?></td>
-                                        <td><?php echo $row['cost_product'];?></td>
-                                        <td><?php echo $row['name_productExistance'];?></td>
-                                        <td><a href="deleteProduct.php?variable=<?php echo $row['id_product'];?>"><span class="fa fa-trash" style="color: red;"></span></a></td>
+                                        <td><?php echo $platillo['id_product'];?></td>
+                                        <td><?php echo $platillo['name_product'];?></td>
+                                        <td><?php echo $platillo['description_product'];?></td>
+                                        <td><?php echo $platillo['mark_product'];?></td>
+                                        <td><?php echo $platillo['unitaryPrice_product'];?></td>
+                                        <td><?php echo $platillo['cost_product'];?></td>
+                                        
+                                        <td>
+                                            <?php 
+                                                if ($platillo['productExistance']==1) {
+                                                    echo "En existencia";
+                                                }else{
+                                                    if ($platillo['productExistance']==0) {
+                                                        echo "Sin existencia";
+                                                    }
+                                                } 
+                                            ?>
+                                        </td>
+                                        <td>
+                                        <a href="menu/Vista/delete.php?Id=<?php echo $platillo['id_product'];?>"><span class="fa fa-trash" style="color: red;"></span></a>
+                                        </td>
                                     </tr>
                                 <?php        
+                                        }
                                     }
                                 ?>
                             </table>

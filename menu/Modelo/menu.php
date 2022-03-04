@@ -3,21 +3,25 @@
     require_once('db.php');
     session_start();
 
-    class Usuarios extends Conexion{
+    class Menu extends Conexion{
         
         public function __construct(){
             $this->db = parent::__construct();
         }
 
-        public function add($email, $password,$userType){
-            $statement = $this->db->prepare("INSERT INTO user (email_user, pass_user, id_userType) VALUES (:Email, :Password, :UserType)");
-            $statement->bindParam(':Email', $email);
-            $statement->bindParam(':Password', $password);
-            $statement->bindParam(':UserType', $userType);
+        public function addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio){
+            $statement = $this->db->prepare("INSERT INTO product (name_product, description_product, mark_product, unitaryPrice_product, cost_product, code_product, productExistance) VALUES (:nombre, :descripcion, :marca, :precio, :costo, :codigo, :existencia)");
+            $statement->bindParam(':nombre', $nombre);
+            $statement->bindParam(':descripcion', $descripcion);
+            $statement->bindParam(':marca', $marca);
+            $statement->bindParam(':codigo', $codigo);
+            $statement->bindParam(':existencia', $existencia);
+            $statement->bindParam(':costo', $costo);
+            $statement->bindParam(':precio', $precio);
             if ($statement->execute()) {
-                header('Location: ../../Index.php');
+                header('Location: ../../menu.php');
             }else{
-                header('Location: ../Vista/add.php');
+                header('Location: ../../menu.php');
             }
         }
 
@@ -67,7 +71,7 @@
 
         public function get(){
             $rows = null;
-            $statement = $this->db->prepare("SELECT * FROM user");
+            $statement = $this->db->prepare("SELECT * FROM product");
             $statement->execute();
             while ($result = $statement->fetch()) {
                 $rows[] = $result; 
@@ -86,10 +90,10 @@
         }
 
         public function delete($Id){
-            $statement = $this->db->prepare("DELETE FROM user WHERE id_user = :Id");
+            $statement = $this->db->prepare("DELETE FROM product WHERE id_product = :Id");
             $statement->bindParam(':Id',$Id);
             if ($statement->execute()) {
-                header('Location: ../../createUser.php');
+                header('Location: ../../menu.php');
             }else{
                 header('Location: ../../createUser.php');
             }
