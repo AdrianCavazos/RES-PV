@@ -2,7 +2,6 @@
 
 require_once("usuarios/Modelo/usuarios.php");
 
-
 $ModeloUsuarios = new Usuarios();
 
 ?>
