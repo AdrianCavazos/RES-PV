@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 05, 2022 at 02:18 AM
+-- Generation Time: Mar 05, 2022 at 03:13 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -82,10 +82,9 @@ CREATE TABLE `purchasedetail` (
 
 CREATE TABLE `sell` (
   `id_sell` int(11) NOT NULL,
-  `id_product` int(11) NOT NULL,
-  `name_product` varchar(30) NOT NULL,
-  `unitaryPrice_product` int(11) NOT NULL,
   `quantity_sell` int(11) NOT NULL,
+  `totalCost_sell` float NOT NULL,
+  `totalPrice_sell` float NOT NULL,
   `timestamp_sell` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -93,8 +92,31 @@ CREATE TABLE `sell` (
 -- Dumping data for table `sell`
 --
 
-INSERT INTO `sell` (`id_sell`, `id_product`, `name_product`, `unitaryPrice_product`, `quantity_sell`, `timestamp_sell`) VALUES
-(1, 2, 'Zopes', 90, 1, '2022-03-04 19:07:05');
+INSERT INTO `sell` (`id_sell`, `quantity_sell`, `totalCost_sell`, `totalPrice_sell`, `timestamp_sell`) VALUES
+(1, 4, 160, 330, '2022-03-05 01:53:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sellItems`
+--
+
+CREATE TABLE `sellItems` (
+  `id_sellItems` int(11) NOT NULL,
+  `id_sell` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `name_product` text NOT NULL,
+  `unitaryPrice_product` float NOT NULL,
+  `quantity_sell` smallint(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sellItems`
+--
+
+INSERT INTO `sellItems` (`id_sellItems`, `id_sell`, `id_product`, `name_product`, `unitaryPrice_product`, `quantity_sell`) VALUES
+(1, 1, 2, 'Zopes', 90, 2),
+(2, 1, 4, 'Chilaquiles rojos', 75, 2);
 
 -- --------------------------------------------------------
 
@@ -151,6 +173,13 @@ ALTER TABLE `sell`
   ADD PRIMARY KEY (`id_sell`);
 
 --
+-- Indexes for table `sellItems`
+--
+ALTER TABLE `sellItems`
+  ADD PRIMARY KEY (`id_sellItems`),
+  ADD KEY `id_sell` (`id_sell`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -183,6 +212,12 @@ ALTER TABLE `purchasedetail`
 --
 ALTER TABLE `sell`
   MODIFY `id_sell` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `sellItems`
+--
+ALTER TABLE `sellItems`
+  MODIFY `id_sellItems` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`

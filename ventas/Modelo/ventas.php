@@ -63,7 +63,7 @@
 
         public function getVenta($id_venta){
             $rows = null;
-            $statement = $this->db->prepare("SELECT * FROM sell WHERE id_sell = :id_venta");
+            $statement = $this->db->prepare("SELECT * FROM sellItems WHERE id_sell = :id_venta");
             $statement->bindParam(':id_venta', $id_venta);
             $statement->execute();
             while ($result = $statement->fetch()) {
