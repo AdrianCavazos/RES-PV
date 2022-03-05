@@ -8,7 +8,7 @@
         $Id = $_POST['Id'];
         $Modelo->delete($Id);
     }else{
-        header('Location: ../../Index.php');
+        header('Location: ../../index.php');
     }
     
 

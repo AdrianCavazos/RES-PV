@@ -1,6 +1,6 @@
 <?php
     
-    require_once('db.php');
+    require_once(__DIR__.'/../../db.php');
     session_start();
 
     class Usuarios extends Conexion{
@@ -15,7 +15,7 @@
             $statement->bindParam(':Password', $password);
             $statement->bindParam(':UserType', $userType);
             if ($statement->execute()) {
-                header('Location: ../../Index.php');
+                header('Location: ../../index.php');
             }else{
                 header('Location: ../Vista/add.php');
             }
@@ -60,7 +60,7 @@
                 }
                
             }else{
-                header('Location: ../../Index.php');
+                header('Location: ../../index.php');
             }
             
         }
@@ -109,14 +109,14 @@
 
         public function validateSession(){
             if ($_SESSION['ID'] == null) {
-                header('Location: ../../Index.php');
+                header('Location: ../../index.php');
             }
         }
 
         public function validateSessionAdministrator(){
             if ($_SESSION['ID'] != null) {
                 if ($_SESSION['PERFIL'] == 'Docente') {
-                    header('Location: ../../Estudiantes/Vista/Index.php');
+                    header('Location: ../../Estudiantes/Vista/index.php');
                 }
             }
         }
@@ -126,7 +126,7 @@
             $_SESSION['NOMBRE'] = null;
             $_SESSION['PERFIL'] = null;
             session_destroy();
-            header('Location: ../../Index.php');
+            header('Location: ../../index.php');
         }
     }
 

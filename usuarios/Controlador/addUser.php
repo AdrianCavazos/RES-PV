@@ -12,7 +12,7 @@ if($_POST){
     $password2 = $_POST['pass2'];
     $Modelo->addUser($name,$lname,$email,$phone,$userType,$password);
 }else{
-    header('Location: ../../Index.php');
+    header('Location: ../../index.php');
 }
 
 ?>

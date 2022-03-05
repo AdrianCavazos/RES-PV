@@ -114,7 +114,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; El porton de dona Anita, 2021 </span>
+                        <span>Copyright &copy; Res-PV, 2022 </span>
                     </div>
                 </div>
             </footer>

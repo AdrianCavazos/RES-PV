@@ -12,6 +12,6 @@
         $precio = $_POST['precio'];
         $ModeloMenu->addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio);
     }else{
-        header('Location: ../../Index.php');
+        header('Location: ../../index.php');
     }
 ?>
