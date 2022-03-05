@@ -174,8 +174,8 @@ $ModeloVentas = new Ventas();
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                        Fecha de la venta</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $venta['date_sell']; ?></div>
+                                                        Fecha y hora de la venta</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $venta['timestamp_sell']; ?></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -195,7 +195,7 @@ $ModeloVentas = new Ventas();
                                                     </div>
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col-auto">
-                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['totalQuantity_sell']; ?></div>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['totalPrice_sell']; ?></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -209,12 +209,11 @@ $ModeloVentas = new Ventas();
                                 <div class="row">
                                     <table class="table table-bordered">
                                         <tr>
-                                            <td>id Venta</td>
+                                            <td>id Articulo Vendido</td>
                                             <td>id Producto</td>
                                             <td>Nombre del producto</td>
                                             <td>Precio Unitario</td>
                                             <td>Cantidad</td>
-                                            <td>Fecha y Hora</td>
                                         </tr>
                                         <?php
                                             $datosVenta = $ModeloVentas->getVenta($venta['id_sell']);
@@ -222,12 +221,11 @@ $ModeloVentas = new Ventas();
                                                 foreach($datosVenta as $datoVenta) {
                                         ?>
                                         <tr>
-                                            <td><?php echo $datoVenta['id_sell'];?></td>
+                                            <td><?php echo $datoVenta['id_sellItems'];?></td>
                                             <td><?php echo $datoVenta['id_product'];?></td>
                                             <td><?php echo $datoVenta['name_product'];?></td>
                                             <td><?php echo "$".$datoVenta['unitaryPrice_product'];?></td>
                                             <td><?php echo $datoVenta['quantity_sell'];?></td>
-                                            <td><?php echo $datoVenta['timestamp_sell'];?></td>
                                         </tr>
                                         <?php   
                                                 }
