@@ -1,3 +1,10 @@
+<?php
+
+require_once("ventas/Modelo/ventas.php");
+
+$ModeloVentas = new Ventas();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +42,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">El portón de doña Anita <sup>Admin</sup></div>
+                <div class="sidebar-brand-text mx-3">Res-PV<sup>Admin</sup></div>
             </a>
 
             <!-- Divider -->
@@ -119,31 +126,28 @@
                         <form action="" method="post">
                             <div class="form group">
                                 <select class="form-control" name="search">
-                                    <?php
-                                        include "db.php";
-                                        $consul = "SELECT id_sell FROM sell ORDER BY id_sell DESC";
-                                        $res = mysqli_query($conn,$consul);
-                                        $rowType = mysqli_num_rows($res);
-                                        while ($rowType=mysqli_fetch_array($res)) {
-                                    ?>
-                                            <option value="<?php echo $rowType['id_sell']; ?>"><?php echo $rowType['id_sell']; ?></option>
-                                    <?php   
+                                <?php
+                                    $ventas = $ModeloVentas->get();
+                                    if($ventas != null) {
+                                        foreach($ventas as $venta) {
+                                ?>
+                                    <option value="<?php echo $venta['id_sell']; ?>"><?php echo $venta['id_sell']; ?></option>
+                                <?php   
                                         }
-                                    ?>
+                                    }
+                                ?>
                                 </select>
                                 <input type="submit" class="btn btn-primary btn-user btn-block" value="Buscar">
                             </div>
                             <br>
-                            
                         </form>
                     </div>
                     <?php
                     
                         if (isset($_POST['search'])) {
-                            $query = "SELECT * FROM `sell` WHERE id_sell = ".$_POST['search']."";
-                            $result = mysqli_query($conn,$query);
-                            $row = mysqli_num_rows($result);
-                            while ($row = mysqli_fetch_array($result)) {
+                            $ventas = $ModeloVentas->get();
+                                    if($ventas != null) {
+                                        foreach($ventas as $venta) {
                     ?>
                             <div class="row">
                                 <div class="col-xl-4 col-md-6 mb-4">
@@ -153,7 +157,7 @@
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                         ID de la venta</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row['id_sell']; ?></div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $venta['id_sell']; ?></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -171,7 +175,7 @@
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                         Fecha de la venta</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row['date_sell']; ?></div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $venta['date_sell']; ?></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -191,7 +195,7 @@
                                                     </div>
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col-auto">
-                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$row['totalQuantity_sell']; ?></div>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['totalQuantity_sell']; ?></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -208,34 +212,34 @@
                                             <td>id Venta</td>
                                             <td>id Producto</td>
                                             <td>Nombre del producto</td>
-                                            <td>Descripcion</td>
                                             <td>Precio Unitario</td>
                                             <td>Cantidad</td>
+                                            <td>Fecha y Hora</td>
                                         </tr>
-                                        <?php 
-                                            $con = "SELECT a.id_sell, c.id_product,c.name_product,c.description_product,c.unitaryPrice_product,a.quantity_sellDetail FROM selldetail a INNER JOIN sell b ON a.id_sell = b.id_sell INNER JOIN product c ON a.id_product = c.id_product WHERE a.id_sell = ".$row['id_sell']."";
-                                            $res = mysqli_query($conn,$con);
-                                            $rowSale = mysqli_num_rows($res);
-                                            while ($rowSale = mysqli_fetch_array($res)) {
+                                        <?php
+                                            $datosVenta = $ModeloVentas->getVenta($venta['id_sell']);
+                                            if($datosVenta != null) {
+                                                foreach($datosVenta as $datoVenta) {
                                         ?>
                                         <tr>
-                                            <td><?php echo $rowSale['id_sell'];?></td>
-                                            <td><?php echo $rowSale['id_product'];?></td>
-                                            <td><?php echo $rowSale['name_product'];?></td>
-                                            <td><?php echo $rowSale['description_product'];?></td>
-                                            <td><?php echo "$".$rowSale['unitaryPrice_product'];?></td>
-                                            <td><?php echo $rowSale['quantity_sellDetail'];?></td>
+                                            <td><?php echo $datoVenta['id_sell'];?></td>
+                                            <td><?php echo $datoVenta['id_product'];?></td>
+                                            <td><?php echo $datoVenta['name_product'];?></td>
+                                            <td><?php echo "$".$datoVenta['unitaryPrice_product'];?></td>
+                                            <td><?php echo $datoVenta['quantity_sell'];?></td>
+                                            <td><?php echo $datoVenta['timestamp_sell'];?></td>
                                         </tr>
-                                        <?php    
-                                            }    
-                                        }
+                                        <?php   
+                                                }
+                                            }
                                         ?>
                                     </table>
                                 </div>
                             </div> 
                             <?php
+                                }
+                            }
                         }
-                            
                             ?>
                 </div>
                 <!-- /.container-fluid -->
@@ -247,7 +251,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; El porton de dona Anita, 2021 </span>
+                        <span>Copyright &copy; Res-PV, 2022 </span>
                     </div>
                 </div>
             </footer>

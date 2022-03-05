@@ -1,12 +1,12 @@
 <?php
 
-    require_once('../Modelo/menu.php');
+    require_once('../Modelo/ventas.php');
 
     if ($_POST) {
-        $ModeloMenu = new Menu();
+        $ModeloVentas = new Ventas();
         
         $Id = $_POST['Id'];
-        $ModeloMenu->delete($Id);
+        $ModeloVentas->delete($Id);
     }else{
         header('Location: ../../index.php');
     }

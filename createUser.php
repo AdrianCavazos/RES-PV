@@ -1,7 +1,6 @@
 <?php
 
-require_once("usuarios/Modelo/Usuarios.php");
-
+require_once("usuarios/Modelo/usuarios.php");
 
 $ModeloUsuarios = new Usuarios();
 
@@ -43,7 +42,7 @@ $ModeloUsuarios = new Usuarios();
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">El portón de doña Anita <sup>Admin</sup></div>
+                <div class="sidebar-brand-text mx-3">Res-PV<sup>Admin</sup></div>
             </a>
 
             <!-- Divider -->
@@ -216,7 +215,7 @@ $ModeloUsuarios = new Usuarios();
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; El porton de dona Anita, 2021 </span>
+                        <span>Copyright &copy; Res-PV, 2022 </span>
                     </div>
                 </div>
             </footer>

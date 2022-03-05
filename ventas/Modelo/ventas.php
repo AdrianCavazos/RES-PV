@@ -3,40 +3,22 @@
     require_once(__DIR__.'/../../db.php');
     session_start();
 
-    class Menu extends Conexion{
+    class Ventas extends Conexion{
         
         public function __construct(){
             $this->db = parent::__construct();
         }
 
-        public function addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio){
-            $statement = $this->db->prepare("INSERT INTO product (name_product, description_product, mark_product, unitaryPrice_product, cost_product, code_product, productExistance) VALUES (:nombre, :descripcion, :marca, :precio, :costo, :codigo, :existencia)");
-            $statement->bindParam(':nombre', $nombre);
-            $statement->bindParam(':descripcion', $descripcion);
-            $statement->bindParam(':marca', $marca);
-            $statement->bindParam(':codigo', $codigo);
-            $statement->bindParam(':existencia', $existencia);
-            $statement->bindParam(':costo', $costo);
+        public function addVenta($id_producto, $nombre_producto, $precio, $cantidad){
+            $statement = $this->db->prepare("INSERT INTO sell (id_product, name_product, unitaryPrice_product, quantity_sell) VALUES (:id_producto, :nombre_producto, :precio, :cantidad)");
+            $statement->bindParam(':id_producto', $id_producto);
+            $statement->bindParam(':nombre_producto', $nombre_producto);
             $statement->bindParam(':precio', $precio);
+            $statement->bindParam(':cantidad', $cantidad);
             if ($statement->execute()) {
-                header('Location: ../../menu.php');
+                header('Location: ../../sales.php');
             }else{
-                header('Location: ../../menu.php');
-            }
-        }
-
-        public function addUser($name,$lname,$email,$phone,$userType,$password){
-            $statement = $this->db->prepare("INSERT INTO user (name_user, lname_user, phone_user, email_user, pass_user, id_userType) VALUES (:name, :lname, :phone, :email, :password, :userType)");
-            $statement->bindParam(':name', $name);
-            $statement->bindParam(':lname', $lname);
-            $statement->bindParam(':email', $email);
-            $statement->bindParam(':phone', $phone);
-            $statement->bindParam(':userType', $userType);
-            $statement->bindParam(':password', $password);
-            if ($statement->execute()) {
-                header('Location: ../../createUser.php');
-            }else{
-                header('Location: ../Vista/add.php');
+                header('Location: ../../sales.php');
             }
         }
 
@@ -71,7 +53,18 @@
 
         public function get(){
             $rows = null;
-            $statement = $this->db->prepare("SELECT * FROM product");
+            $statement = $this->db->prepare("SELECT * FROM sell");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function getVenta($id_venta){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM sell WHERE id_sell = :id_venta");
+            $statement->bindParam(':id_venta', $id_venta);
             $statement->execute();
             while ($result = $statement->fetch()) {
                 $rows[] = $result; 
@@ -90,12 +83,12 @@
         }
 
         public function delete($Id){
-            $statement = $this->db->prepare("DELETE FROM product WHERE id_product = :Id");
+            $statement = $this->db->prepare("DELETE FROM sell WHERE id_sell = :Id");
             $statement->bindParam(':Id',$Id);
             if ($statement->execute()) {
-                header('Location: ../../menu.php');
+                header('Location: ../../sales.php');
             }else{
-                header('Location: ../../createUser.php');
+                header('Location: ../../sales.php');
             }
         }
 
