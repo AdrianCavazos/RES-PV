@@ -9,7 +9,8 @@
             $this->db = parent::__construct();
         }
 
-        public function addVenta($id_producto, $nombre_producto, $precio, $cantidad){
+//TODO: implementar o eliminar funcion addVenta para contador
+/*        public function addVenta($id_producto, $nombre_producto, $precio, $cantidad){
             $statement = $this->db->prepare("INSERT INTO sell (id_product, name_product, unitaryPrice_product, quantity_sell) VALUES (:id_producto, :nombre_producto, :precio, :cantidad)");
             $statement->bindParam(':id_producto', $id_producto);
             $statement->bindParam(':nombre_producto', $nombre_producto);
@@ -21,6 +22,7 @@
                 header('Location: ../../sales.php');
             }
         }
+        */
 
         public function login($email, $password){
             // $rows = null;
@@ -63,7 +65,18 @@
 
         public function getVenta($id_venta){
             $rows = null;
-            $statement = $this->db->prepare("SELECT * FROM sellItems WHERE id_sell = :id_venta");
+            $statement = $this->db->prepare("SELECT * FROM sell WHERE id_sell = :id_venta");
+            $statement->bindParam(':id_venta', $id_venta);
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function getArticulosVenta($id_venta){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM selldetail WHERE id_sell = :id_venta");
             $statement->bindParam(':id_venta', $id_venta);
             $statement->execute();
             while ($result = $statement->fetch()) {

@@ -130,9 +130,15 @@ $ModeloVentas = new Ventas();
                                     $ventas = $ModeloVentas->get();
                                     if($ventas != null) {
                                         foreach($ventas as $venta) {
-                                ?>
-                                    <option value="<?php echo $venta['id_sell']; ?>"><?php echo $venta['id_sell']; ?></option>
-                                <?php   
+                                            if(isset($_POST['search']) && $venta['id_sell'] == $_POST['search']) {
+                                                ?>
+                                                    <option value="<?php echo $venta['id_sell']; ?>" selected><?php echo $venta['id_sell']; ?></option>
+                                                <?php   
+                                            } else {
+                                                ?>
+                                                    <option value="<?php echo $venta['id_sell']; ?>"><?php echo $venta['id_sell']; ?></option>
+                                                <?php   
+                                            }
                                         }
                                     }
                                 ?>
@@ -145,12 +151,12 @@ $ModeloVentas = new Ventas();
                     <?php
                     
                         if (isset($_POST['search'])) {
-                            $ventas = $ModeloVentas->get();
+                            $ventas = $ModeloVentas->getVenta($_POST['search']);
                                     if($ventas != null) {
                                         foreach($ventas as $venta) {
                     ?>
                             <div class="row">
-                                <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="col-xl col-md-6 mb-4">
                                     <div class="card border-left-primary shadow h-100 py-2">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
@@ -168,14 +174,14 @@ $ModeloVentas = new Ventas();
                                 </div>
 
                                 <!-- Earnings (Annual) Card Example -->
-                                <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="col-xl col-md-6 mb-4">
                                     <div class="card border-left-success shadow h-100 py-2">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                         Fecha y hora de la venta</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $venta['timestamp_sell']; ?></div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $venta['date_sell']; ?> <?php echo $venta['time_sell']; ?></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -186,7 +192,7 @@ $ModeloVentas = new Ventas();
                                 </div>
 
                                 <!-- Tasks Card Example -->
-                                <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="col-xl col-md-6 mb-4">
                                     <div class="card border-left-info shadow h-100 py-2">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
@@ -195,7 +201,29 @@ $ModeloVentas = new Ventas();
                                                     </div>
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col-auto">
-                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['totalPrice_sell']; ?></div>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['totalQuantity_sell']; ?></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tasks Card Example -->
+                                <div class="col-xl col-md-6 mb-4">
+                                    <div class="card border-left-info shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Cambio entregado
+                                                    </div>
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col-auto">
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['change_sell']; ?></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -216,16 +244,16 @@ $ModeloVentas = new Ventas();
                                             <td>Cantidad</td>
                                         </tr>
                                         <?php
-                                            $datosVenta = $ModeloVentas->getVenta($venta['id_sell']);
+                                            $datosVenta = $ModeloVentas->getArticulosVenta($venta['id_sell']);
                                             if($datosVenta != null) {
                                                 foreach($datosVenta as $datoVenta) {
                                         ?>
                                         <tr>
-                                            <td><?php echo $datoVenta['id_sellItems'];?></td>
+                                            <td><?php echo $datoVenta['id_sellDetail'];?></td>
                                             <td><?php echo $datoVenta['id_product'];?></td>
                                             <td><?php echo $datoVenta['name_product'];?></td>
                                             <td><?php echo "$".$datoVenta['unitaryPrice_product'];?></td>
-                                            <td><?php echo $datoVenta['quantity_sell'];?></td>
+                                            <td><?php echo $datoVenta['cuantity_sellDetail'];?></td>
                                         </tr>
                                         <?php   
                                                 }
