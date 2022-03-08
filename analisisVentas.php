@@ -1,3 +1,10 @@
+<?php
+
+require_once("menu/Modelo/menu.php");
+
+$ModeloMenu = new Menu();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Inicio - Administrador</title>
+    <title>Menu - Administrador</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -31,7 +38,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="homeAdministrador.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -54,6 +61,7 @@
                     <i class="fas fa-fw fa-list"></i>
                     <span>Menú</span></a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="sales.php">
                     <i class="fas fa-fw fa-credit-card"></i>
@@ -65,6 +73,7 @@
                     <i class="fas fa-fw fa-money-bill"></i>
                     <span>Analisis Ventas</span></a>
             </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -116,10 +125,59 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Bienvenido! :D </h1>
-                    </div>
+                    
+                        <h1 class="h3 mb-0 text-gray-800">Analisis de Ventas</h1>
+                        <p class="mb-4">Compruebe el rendimiento de sus ventas y observe los productos.</p>
 
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Detalles de Ventas</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                             <th>ID Venta</th>
+                                            <th>ID Producto</th>
+                                            <th>Nombre Producto</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad </th>
+                                            <th>ID Venta Individual</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID Venta</th>
+                                            <th>ID Producto</th>
+                                            <th>Nombre Producto</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad </th>
+                                            <th>ID Venta Individual</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                       <?php 
+                                        $nombreTabla = "selldetail";
+                                        $detalles = $ModeloMenu -> getTabla($nombreTabla);
+                                        foreach($detalles as $detalle){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $detalle['id_sellDetail'] ?></td>
+                                            <td><?php echo $detalle['id_product'] ?></td>
+                                            <td><?php echo $detalle['name_product'] ?></td>
+                                            <td><?php echo $detalle['unitaryPrice_product'] ?></td>
+                                            <td><?php echo $detalle['cuantity_sellDetail'] ?></td>
+                                            <td><?php echo $detalle['id_sell'] ?></td>
+                                        </tr>
+                                        <?php 
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -179,11 +237,11 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 

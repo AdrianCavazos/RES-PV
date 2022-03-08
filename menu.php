@@ -68,6 +68,12 @@ $ModeloMenu = new Menu();
                     <span>Ventas</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="analisisVentas.php">
+                    <i class="fas fa-fw fa-money-bill"></i>
+                    <span>Analisis Ventas</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -124,18 +130,24 @@ $ModeloMenu = new Menu();
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <form class="user" action="menu/Controlador/addPlatillo.php" method="POST">
+                            <form class="user" action="menu/Controlador/addPlatillo.php" method="POST" enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Nombre del platillo" name="nombre">
+                                    <input required type="text" class="form-control" placeholder="Nombre del platillo" name="nombre">
                                 </div>
                                 <div class="form-group">
-                                    <textarea class="form-control" placeholder="Descripcion" name="descripcion" maxlength="50"></textarea>
+                                    <textarea required class="form-control" placeholder="Descripcion" name="descripcion" maxlength="50"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Marca" name="marca">
+                                    <input required type="text" class="form-control" placeholder="Marca" name="marca">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Codigo" name="codigo">
+                                    <input required type="text" class="form-control" placeholder="Codigo" name="codigo">
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-file">
+                                        <input required type="file" class="custom-file-input" name="imagen">
+                                        <label class="custom-file-label" for="inputGroupFile01">Elige una imagen</label>
+                                    </div>
                                 </div>
                                 <div class="form group">
                                     <select class="form-control" name="existencia">
@@ -148,10 +160,10 @@ $ModeloMenu = new Menu();
                                 <br>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" placeholder="Costo" name="costo">
+                                        <input requiredtype="text" class="form-control" placeholder="Costo" name="costo">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Precio de venta" name="precio">
+                                        <input requiredtype="text" class="form-control" placeholder="Precio de venta" name="precio">
                                     </div>
                                 </div>
                                 <input type ="submit" class="btn btn-primary btn-user btn-block" value="Registrar Platillo">
@@ -161,26 +173,30 @@ $ModeloMenu = new Menu();
                         </div>
                     </div>
                     <hr>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Menu </h1>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12"> 
-                            <table class="table table-bordered">
-                                <tr>
-                                    <td>Id</td>
-                                    <td>Producto</td>
-                                    <td>Descripcion</td>
-                                    <td>Marca</td>
-                                    <td>Costo</td>
-                                    <td>Precio de venta</td>
-                                    <td>Existencia</td>
-                                </tr>
+                    
+                    <div class="card shadow mb-4 col-lg-8">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">MENU</h6>
+                        </div>
+                        <div class="card-body" >
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <th>Id</th>
+                                    <th>Producto</th>
+                                    <th>Descripcion</th>
+                                    <th>Marca</th>
+                                    <th>Costo</th>
+                                    <th>Precio de Venta</th>
+                                    <th>existencia</th>
+                                </thead>
+                                <tbody>
                                 <?php
-                                    $platillos = $ModeloMenu->get();
-                                    if($platillos != null){
-                                        foreach($platillos as $platillo){
+                                    $productos = $ModeloMenu->get();
+                                    if($productos != null){
+                                        foreach($productos as $platillo){
                                 ?>
+
                                     <tr>
                                         <td><?php echo $platillo['id_product'];?></td>
                                         <td><?php echo $platillo['name_product'];?></td>
@@ -208,9 +224,12 @@ $ModeloMenu = new Menu();
                                         }
                                     }
                                 ?>
+                                </tbody>
                             </table>
-                        </div>
-                    </div>  
+                            </div>
+                     </div>
+                    
+ 
                 </div>
                 <!-- /.container-fluid -->
 
