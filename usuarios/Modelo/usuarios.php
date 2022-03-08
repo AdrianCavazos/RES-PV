@@ -121,6 +121,16 @@
             }
         }
 
+        public function getTabla($nombreTabla){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM $nombreTabla");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
         public function salir(){
             $_SESSION['ID'] = null;
             $_SESSION['NOMBRE'] = null;

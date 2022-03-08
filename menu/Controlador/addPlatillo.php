@@ -10,7 +10,8 @@
         $existencia = $_POST['existencia'];
         $costo = $_POST['costo'];
         $precio = $_POST['precio'];
-        $ModeloMenu->addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio);
+        $imagen = file_get_contents($_FILES['imagen']['tmp_name']);
+        $ModeloMenu->addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio, $imagen);
     }else{
         header('Location: ../../index.php');
     }

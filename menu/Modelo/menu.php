@@ -9,8 +9,8 @@
             $this->db = parent::__construct();
         }
 
-        public function addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio){
-            $statement = $this->db->prepare("INSERT INTO product (name_product, description_product, mark_product, unitaryPrice_product, cost_product, code_product, productExistance) VALUES (:nombre, :descripcion, :marca, :precio, :costo, :codigo, :existencia)");
+        public function addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio, $imagen){
+            $statement = $this->db->prepare("INSERT INTO product (name_product, description_product, mark_product, unitaryPrice_product, cost_product, code_product, productExistance, img_product) VALUES (:nombre, :descripcion, :marca, :precio, :costo, :codigo, :existencia, :imagen)");
             $statement->bindParam(':nombre', $nombre);
             $statement->bindParam(':descripcion', $descripcion);
             $statement->bindParam(':marca', $marca);
@@ -18,6 +18,7 @@
             $statement->bindParam(':existencia', $existencia);
             $statement->bindParam(':costo', $costo);
             $statement->bindParam(':precio', $precio);
+            $statement->bindParam(':imagen', $imagen);
             if ($statement->execute()) {
                 header('Location: ../../menu.php');
             }else{
@@ -124,6 +125,18 @@
             session_destroy();
             header('Location: ../../index.php');
         }
+
+        public function getTabla($nombreTabla){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM $nombreTabla");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        
     }
 
 ?>

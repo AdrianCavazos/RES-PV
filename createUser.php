@@ -27,6 +27,9 @@ $ModeloUsuarios = new Usuarios();
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -119,15 +122,16 @@ $ModeloUsuarios = new Usuarios();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Usuarios </h1>
-                    </div>
+                        <p class="mb-4">Registre y Elimine usuarios del sistema</p>
+
+                    <!-- start content -->
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-lg-4 ">
                             <form class="user" action="usuarios/Controlador/addUser.php" method="POST">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" placeholder="Nombre(s)" name="name">
+                                        <input retype="text" class="form-control" placeholder="Nombre(s)" name="name">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" placeholder="Apellido(s)" name="lname">
@@ -160,21 +164,31 @@ $ModeloUsuarios = new Usuarios();
                             </form>
                             
                         </div>
-                        <div class="col-md-8"> 
-                            <table class="table table-bordered">
-                                <tr>
-                                    <td>Id</td>
-                                    <td>Nombre</td>
-                                    <td>Apellido</td>
-                                    <td>Telefono</td>
-                                    <td>Email</td>
-                                    <td>Tipo de usuario</td>
-                                </tr>
+
+
+                        <!-- INICIO DE TABLA-->
+                        <div class="card shadow mb-4 col-lg-8">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">USUARIOS REGISTRADOS</h6>
+                        </div>
+                        <div class="card-body" >
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Telefono</th>
+                                    <th>Email</th>
+                                    <th>Tipo de usuario</th>
+                                </thead>
+                                <tbody>
                                 <?php
                                     $usuarios = $ModeloUsuarios->get();
                                     if($usuarios != null){
                                         foreach($usuarios as $usuario){
                                 ?>
+
                                     <tr>
                                         <td><?php echo $usuario['id_user'];?></td>
                                         <td><?php echo $usuario['name_user'];?></td>
@@ -202,9 +216,12 @@ $ModeloUsuarios = new Usuarios();
                                         }
                                     }
                                 ?>
+                                </tbody>
                             </table>
+                            </div>
+                                </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -263,12 +280,11 @@ $ModeloUsuarios = new Usuarios();
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
+    <script src="js/demo/datatables-demo.js"></script>
 </body>
 
 </html>
