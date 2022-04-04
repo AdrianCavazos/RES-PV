@@ -1,3 +1,11 @@
+<?php
+
+require_once("ventas/Modelo/ventas.php");
+
+$ModeloVentas = new Ventas();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +17,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Inicio - Administrador</title>
+    <title>Inicio - Mesero</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -31,11 +39,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">El portón de doña Anita <sup>Mesero</sup></div>
+                <div class="sidebar-brand-text mx-3">Res-PV<sup>Mesero</sup></div>
             </a>
 
             <!-- Divider -->
@@ -110,6 +118,7 @@
                                     <select class="form-control" name="product">
                                         <?php
                                             include "db.php";
+                                            session_start();
                                             $consul = "SELECT * FROM product";
                                             $res = mysqli_query($conn,$consul);
                                             $rowType = mysqli_num_rows($res);
@@ -187,7 +196,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; El porton de dona Anita, 2021 </span>
+                        <span>Copyright &copy; Res-PV, 2022 </span>
                     </div>
                 </div>
             </footer>

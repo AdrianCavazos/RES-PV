@@ -1,7 +1,6 @@
 <?php
 
-require_once("usuarios/Modelo/Usuarios.php");
-
+require_once("usuarios/Modelo/usuarios.php");
 
 $ModeloUsuarios = new Usuarios();
 
@@ -28,6 +27,9 @@ $ModeloUsuarios = new Usuarios();
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -43,7 +45,7 @@ $ModeloUsuarios = new Usuarios();
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">El portón de doña Anita <sup>Admin</sup></div>
+                <div class="sidebar-brand-text mx-3">Res-PV<sup>Admin</sup></div>
             </a>
 
             <!-- Divider -->
@@ -68,6 +70,13 @@ $ModeloUsuarios = new Usuarios();
                     <i class="fas fa-fw fa-credit-card"></i>
                     <span>Ventas</span></a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="analisisVentas.php">
+                    <i class="fas fa-fw fa-money-bill"></i>
+                    <span>Analisis Ventas</span></a>
+            </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -120,25 +129,26 @@ $ModeloUsuarios = new Usuarios();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Usuarios </h1>
-                    </div>
+                        <p class="mb-4">Registre y Elimine usuarios del sistema</p>
+
+                    <!-- start content -->
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-lg-4 ">
                             <form class="user" action="usuarios/Controlador/addUser.php" method="POST">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" placeholder="Nombre(s)" name="name">
+                                        <input required retype="text" class="form-control" placeholder="Nombre(s)" name="name">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Apellido(s)" name="lname">
+                                        <input required type="text" class="form-control" placeholder="Apellido(s)" name="lname">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email" name="email">
+                                    <input required type="email" class="form-control" placeholder="Email" name="email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Telefono" name="phone">
+                                    <input required type="text" class="form-control" placeholder="Telefono" name="phone">
                                 </div>
                                 <div class="form group">
                                     <select class="form-control" name="userType">
@@ -150,10 +160,10 @@ $ModeloUsuarios = new Usuarios();
                                 <br>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control" placeholder="Contraseña" name="pass">
+                                        <input requiredtype="password" class="form-control" placeholder="Contraseña" name="pass">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control" placeholder="Repetir contraseña" name="pass2">
+                                        <input required type="password" class="form-control" placeholder="Repetir contraseña" name="pass2">
                                     </div>
                                 </div>
                                 <input type ="submit" class="btn btn-primary btn-user btn-block" value="Registrar usuario">
@@ -161,21 +171,31 @@ $ModeloUsuarios = new Usuarios();
                             </form>
                             
                         </div>
-                        <div class="col-md-8"> 
-                            <table class="table table-bordered">
-                                <tr>
-                                    <td>Id</td>
-                                    <td>Nombre</td>
-                                    <td>Apellido</td>
-                                    <td>Telefono</td>
-                                    <td>Email</td>
-                                    <td>Tipo de usuario</td>
-                                </tr>
+
+
+                        <!-- INICIO DE TABLA-->
+                        <div class="card shadow mb-4 col-lg-8">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">USUARIOS REGISTRADOS</h6>
+                        </div>
+                        <div class="card-body" >
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Telefono</th>
+                                    <th>Email</th>
+                                    <th>Tipo de usuario</th>
+                                </thead>
+                                <tbody>
                                 <?php
                                     $usuarios = $ModeloUsuarios->get();
                                     if($usuarios != null){
                                         foreach($usuarios as $usuario){
                                 ?>
+
                                     <tr>
                                         <td><?php echo $usuario['id_user'];?></td>
                                         <td><?php echo $usuario['name_user'];?></td>
@@ -203,9 +223,12 @@ $ModeloUsuarios = new Usuarios();
                                         }
                                     }
                                 ?>
+                                </tbody>
                             </table>
+                            </div>
+                                </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -216,7 +239,7 @@ $ModeloUsuarios = new Usuarios();
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; El porton de dona Anita, 2021 </span>
+                        <span>Copyright &copy; Res-PV, 2022 </span>
                     </div>
                 </div>
             </footer>
@@ -264,12 +287,11 @@ $ModeloUsuarios = new Usuarios();
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
+    <script src="js/demo/datatables-demo.js"></script>
 </body>
 
 </html>

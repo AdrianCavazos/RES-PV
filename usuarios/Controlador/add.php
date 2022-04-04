@@ -8,6 +8,6 @@
         $userType = $_POST['usertype'];
         $Modelo->add($email,$password,$userType);
     }else{
-        header('Location: ../../Index.php');
+        header('Location: ../../index.php');
     }
 ?>

@@ -1,8 +1,6 @@
 <?php
-    require_once('../Modelo/usuarios.php');
+    require_once('../Modelo/ventas.php');
 
-
-    
     $Id = $_GET['Id'];
 ?>
 
@@ -15,11 +13,11 @@
     <title>Eliminar</title>
 </head>
 <body>
-    <h1>Eliminar Usuario</h1>
+    <h1>Eliminar Venta</h1>
     <form action="../Controlador/delete.php" method="post">
     <input type="hidden" name="Id" value="<?php echo $Id?>">
-    <p>Estas seguro que deseas eliminar este Usuario?</p>
-    <input type="submit" value="Eliminar Usuario">
+    <p>Estas seguro que deseas eliminar esta venta?</p>
+    <input type="submit" value="Eliminar Venta">
     </form>
 </body>
 </html>

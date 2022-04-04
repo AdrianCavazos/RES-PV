@@ -9,7 +9,7 @@
         $Modelo->login($email,$password);
 
     }else{
-        header('Location: ../../Index.php');
+        header('Location: ../../index.php');
     }
 
 ?>
