@@ -71,6 +71,13 @@ $ModeloUsuarios = new Usuarios();
                     <span>Ventas</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="analisisVentas.php">
+                    <i class="fas fa-fw fa-money-bill"></i>
+                    <span>Analisis Ventas</span></a>
+            </li>
+
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -131,17 +138,17 @@ $ModeloUsuarios = new Usuarios();
                             <form class="user" action="usuarios/Controlador/addUser.php" method="POST">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input retype="text" class="form-control" placeholder="Nombre(s)" name="name">
+                                        <input required retype="text" class="form-control" placeholder="Nombre(s)" name="name">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Apellido(s)" name="lname">
+                                        <input required type="text" class="form-control" placeholder="Apellido(s)" name="lname">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email" name="email">
+                                    <input required type="email" class="form-control" placeholder="Email" name="email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Telefono" name="phone">
+                                    <input required type="text" class="form-control" placeholder="Telefono" name="phone">
                                 </div>
                                 <div class="form group">
                                     <select class="form-control" name="userType">
@@ -153,10 +160,10 @@ $ModeloUsuarios = new Usuarios();
                                 <br>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control" placeholder="Contraseña" name="pass">
+                                        <input requiredtype="password" class="form-control" placeholder="Contraseña" name="pass">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control" placeholder="Repetir contraseña" name="pass2">
+                                        <input required type="password" class="form-control" placeholder="Repetir contraseña" name="pass2">
                                     </div>
                                 </div>
                                 <input type ="submit" class="btn btn-primary btn-user btn-block" value="Registrar usuario">

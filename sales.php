@@ -68,6 +68,13 @@ $ModeloVentas = new Ventas();
                     <span>Ventas</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="analisisVentas.php">
+                    <i class="fas fa-fw fa-money-bill"></i>
+                    <span>Analisis Ventas</span></a>
+            </li>
+
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
