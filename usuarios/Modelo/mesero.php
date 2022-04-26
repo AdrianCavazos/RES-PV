@@ -19,6 +19,26 @@
             return $rows;
         }
         
+        public function getCategorias(){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM product_category");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function getProductosDeCategoria($categoria){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM product WHERE category_product=?");
+            $statement->execute([$categoria]);
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
         public function getMesas(){
             $rows = null;
             $statement = $this->db->prepare("SELECT DISTINCT(mesa) FROM carrito_tmp");

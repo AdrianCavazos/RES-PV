@@ -166,6 +166,21 @@ $ModeloMenu = new Menu();
                                         <input requiredtype="text" class="form-control" placeholder="Precio de venta" name="precio">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Categoría:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control"  name="categoria">
+                                            <?php
+                                                $categorias = $ModeloMenu->getCategorias();
+                                                if($categorias != null){
+                                                    foreach($categorias as $categoria){
+                                                        echo '<option value="'.$categoria['id_category'].'">'.$categoria['category_name'].'</option>';
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
                                 <input type ="submit" class="btn btn-primary btn-user btn-block" value="Registrar Platillo">
                                 <hr>
                             </form>
@@ -173,7 +188,49 @@ $ModeloMenu = new Menu();
                         </div>
                     </div>
                     <hr>
-                    
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Crear categoría nueva</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="user" action="menu/Controlador/addCategoria.php" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input required type="text" class="form-control" placeholder="Nombre de la categoria" name="nombrecategoria">
+                                </div>
+                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Crear categoria">
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Eliminar categoría</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="user" action="menu/Vista/deleteCategoria.php" method="GET">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Categoría:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control"  name="Id">
+                                            <?php
+                                                $categorias = $ModeloMenu->getCategorias();
+                                                if($categorias != null){
+                                                    foreach($categorias as $categoria){
+                                                        echo '<option value="'.$categoria['id_category'].'">'.$categoria['category_name'].'</option>';
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Eliminar categoria">
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
+
+                    <hr>
                     <div class="card shadow mb-4 col-lg-8">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">MENU</h6>

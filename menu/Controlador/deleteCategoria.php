@@ -1,0 +1,15 @@
+<?php
+
+    require_once('../Modelo/menu.php');
+
+    if ($_POST) {
+        $ModeloMenu = new Menu();
+        
+        $Id = $_POST['Id'];
+        $ModeloMenu->deleteCategoria($Id);
+    }else{
+        header('Location: ../../index.php');
+    }
+    
+
+?>
