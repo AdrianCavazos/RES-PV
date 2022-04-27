@@ -9,8 +9,8 @@
             $this->db = parent::__construct();
         }
 
-        public function addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio, $imagen){
-            $statement = $this->db->prepare("INSERT INTO product (name_product, description_product, mark_product, unitaryPrice_product, cost_product, code_product, productExistance, img_product) VALUES (:nombre, :descripcion, :marca, :precio, :costo, :codigo, :existencia, :imagen)");
+        public function addPlatillo($nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio, $categoria, $imagen){
+            $statement = $this->db->prepare("INSERT INTO product (name_product, description_product, mark_product, unitaryPrice_product, cost_product, code_product, productExistance, category_product, img_product) VALUES (:nombre, :descripcion, :marca, :precio, :costo, :codigo, :existencia, :categoria, :imagen)");
             $statement->bindParam(':nombre', $nombre);
             $statement->bindParam(':descripcion', $descripcion);
             $statement->bindParam(':marca', $marca);
@@ -18,6 +18,7 @@
             $statement->bindParam(':existencia', $existencia);
             $statement->bindParam(':costo', $costo);
             $statement->bindParam(':precio', $precio);
+            $statement->bindParam(':categoria', $categoria);
             $statement->bindParam(':imagen', $imagen);
             if ($statement->execute()) {
                 header('Location: ../../menu.php');
@@ -38,6 +39,16 @@
                 header('Location: ../../createUser.php');
             }else{
                 header('Location: ../Vista/add.php');
+            }
+        }
+
+        public function addCategoria($nombrecategoria){
+            $statement = $this->db->prepare("INSERT INTO product_category (category_name) VALUES (:nombrecategoria)");
+            $statement->bindParam(':nombrecategoria', $nombrecategoria);
+            if ($statement->execute()) {
+                header('Location: ../../menu.php');
+            }else{
+                header('Location: ../../menu.php');
             }
         }
 
@@ -80,6 +91,16 @@
             return $rows;
         }
 
+        public function getCategorias(){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM product_category");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
         public function getUserType(){
             $rows = null;
             $statement = $this->db->prepare("SELECT * FROM userType");
@@ -96,7 +117,17 @@
             if ($statement->execute()) {
                 header('Location: ../../menu.php');
             }else{
-                header('Location: ../../createUser.php');
+                header('Location: ../../menu.php');
+            }
+        }
+
+        public function deleteCategoria($Id){
+            $statement = $this->db->prepare("DELETE FROM product_category WHERE id_category = :Id");
+            $statement->bindParam(':Id',$Id);
+            if ($statement->execute()) {
+                header('Location: ../../menu.php');
+            }else{
+                header('Location: ../../menu.php');
             }
         }
 

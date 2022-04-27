@@ -23,7 +23,6 @@ $ModeloMesero  = new Meseros();
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -35,6 +34,7 @@ $ModeloMesero  = new Meseros();
     <div id="wrapper">
 
         <!-- Sidebar -->
+        <div id="left-sidebar-wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -70,6 +70,7 @@ $ModeloMesero  = new Meseros();
             </div>
 
         </ul>
+        </div>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -157,85 +158,128 @@ $ModeloMesero  = new Meseros();
                         }
                     ?>
                     
-                    <div class="row " style="justify-content: center;">
-                        <!-- COMPRUEBAS SI HAY PRODUCTOS Y LOS MUESTRA EN TARJETAS -->
-                        <?php
-                            $productos = $ModeloMesero->get();
-                            if($productos != null){
-                            foreach($productos as $producto){
-                                // VERIFICA SI EL PRODUCTO ESTÁ DISPONIBLE
-                                if($producto['productExistance']==0){
-                                    $disponible = 0;
-                                } else{
-                                    $disponible = 1;
+                    <div class="container">
+                        <!-- CATEGORIAS DE PRODUCTOS -->
+                        <ul class="nav nav-tabs">
+                            <?php
+                                $categorias = $ModeloMesero->getCategorias();
+                                if($categorias != null) {
+                                    $active_class = 0;
+                                    $category_html = '';
+                                    $product_html = '';	
+                                    foreach($categorias as $categoria) {
+                                        $current_tab = "";
+                                        $current_content = "";
+                                        if(!$active_class) {
+                                            $active_class = 1;
+                                            $current_tab = 'active';
+                                            $current_content = 'in active';
+                                        }
+                                        $category_html.= '<li class="nav-item"><a class="nav-link '.$current_tab.'" href="#tab'.$categoria['id_category'].'" data-toggle="tab">'.           
+                                        $categoria['category_name'].'</a></li>';
+                                    }
                                 }
-                        ?>
-                        <!-- INICIO CARD -->
-                        <div class="card mt-1 mx-2 shadow" style="width: 18rem; filter: brightness(<?php 
-                            // SOMBREA SI NO ESTA DISPONIBLE
-                            if($disponible == 0){
-                                echo "50";
-                            } else{
-                                echo "100";
-                            }
-                                
-                            ?>%); ">
-                            
-                            <div class="card-body" style=" height: 30 rem; ">
-                                
-
-                                <img style='display:block; width:15rem;height:10rem;' src="data:image/jpg;base64,<?php echo base64_encode($producto['img_product']); ?>"/>
-                                <br>
-                                <h5 class="card-title"><?php echo $producto['name_product'];?> $<?php echo $producto['unitaryPrice_product'];?></td></h5>
-                                <p class="card-text"><?php echo $producto['description_product'];?></p>
-                                
-                                <!-- TODO PARA EL FORMS -->
-                                <form id="formulario" name="formulario" method="post" action="usuarios/Controlador/addOrder.php">
-                                    <input name="mesa" type="hidden" value="<?php echo $_GET['mesa'];?>" />
-                                    <input name="id_product" type="hidden" value="<?php echo $producto['id_product'];?>" />
-                                    <input name="name_product" type="hidden" value="<?php echo $producto['name_product'];?>" />
-                                    <input name="unitaryPrice_product" type="hidden"  value="<?php echo $producto['unitaryPrice_product'];?>" class="pl-2" />
-                                
-                                
-                                    
-                                <?php 
-                                    // ELECCION DE BOTON SI ESTA DISPONIBLE
-                                    if($disponible==0){
-                                ?>
-                                    <button type="button" class="btn btn-warning btn-icon-split disabled" style="width:15rem;height:4rem;">
-                                        <span class="icon text-white-50 py-3">
-                                            <i class="my-auto fas fa-exclamation-triangle"></i>
-                                        </span>
-                                        <span class="text my-auto">No Disponible por el Momento</span>
-                                    </button>
-                                <?php  
+                                echo $category_html;
+                            ?>
+                        </ul>
+                        <div class="tab-content">
+                            <?php
+                            if($categorias != null) {
+                                $active_class = 0;
+                                $category_html = '';
+                                $product_html = '';	
+                                foreach($categorias as $categoria) {
+                                    $current_tab = "";
+                                    $current_content = "";
+                                    if(!$active_class) {
+                                        $active_class = 1;
+                                        $current_tab = 'active';
+                                        $current_content = 'show active';
+                                    }
+                                    echo '<div id="tab'.$categoria['id_category'].'" class="tab-pane fade '.$current_content.'">';
+                                    echo '<div class="row " style="justify-content: center;">';
+                                    $productos = $ModeloMesero->getProductosDeCategoria($categoria['id_category']);
+                                    if($productos == null){
+                                        echo  '<br>No product found!';
                                     } else{
-                                ?>
-                                    <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">Cantidad</label>
-                                        <div class="col-sm-7">
-                                            <input required class="form-control" name="cantidad" type="text" placeholder="# de este plato"/>
+                                        foreach($productos as $producto){
+                                            // VERIFICA SI EL PRODUCTO ESTÁ DISPONIBLE
+                                            if($producto['productExistance']==0){
+                                                $disponible = 0;
+                                            } else{
+                                                $disponible = 1;
+                                            }
+                                            //mostrar productos    
+                                    ?>
+                                        <!-- INICIO CARD -->
+                                        <div class="card mt-1 mx-2 shadow" style="width: 18rem; filter: brightness(<?php 
+                                            // SOMBREA SI NO ESTA DISPONIBLE
+                                            if($disponible == 0){
+                                                echo "50";
+                                            } else{
+                                                echo "100";
+                                            }    
+                                            ?>%); ">
+
+                                            <div class="card-body" style=" height: 30 rem; ">
+                                                <img style='display:block; width:15rem;height:10rem;' src="data:image/jpg;base64,<?php echo base64_encode($producto['img_product']); ?>"/>
+                                                <br>
+                                                <h5 class="card-title"><?php echo $producto['name_product'];?> $<?php echo $producto['unitaryPrice_product'];?></td></h5>
+                                                <p class="card-text"><?php echo $producto['description_product'];?></p>
+                                                
+                                                <!-- TODO PARA EL FORMS -->
+                                                <form id="formulario" name="formulario" method="post" action="usuarios/Controlador/addOrder.php">
+                                                    <input name="mesa" type="hidden" value="<?php echo $_GET['mesa'];?>" />
+                                                    <input name="id_product" type="hidden" value="<?php echo $producto['id_product'];?>" />
+                                                    <input name="name_product" type="hidden" value="<?php echo $producto['name_product'];?>" />
+                                                    <input name="unitaryPrice_product" type="hidden"  value="<?php echo $producto['unitaryPrice_product'];?>" class="pl-2" />
+                                                
+                                                <?php 
+                                                    // ELECCION DE BOTON SI ESTA DISPONIBLE
+                                                    if($disponible==0){
+                                                ?>
+                                                    <button type="button" class="btn btn-warning btn-icon-split disabled" style="width:15rem;height:4rem;">
+                                                        <span class="icon text-white-50 py-3">
+                                                            <i class="my-auto fas fa-exclamation-triangle"></i>
+                                                        </span>
+                                                        <span class="text my-auto">No Disponible por el Momento</span>
+                                                    </button>
+                                                <?php  
+                                                    } else {
+                                                ?>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Cantidad</label>
+                                                        <div class="col-sm-7">
+                                                            <input required class="form-control" name="cantidad" type="text" placeholder="# de este plato"/>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary btn-icon-split my-auto" style="width:15rem;height:4rem;">
+                                                        <span style="width:3rem; height:4rem;" class="icon text-white-100 my-auto">
+                                                            <i  class="fas fa-cart-plus py-3"></i>
+                                                        </span>
+                                                        <span style="width:12rem;" class="text my-auto">Agregar a la Orden</span>
+                                                    </button>
+                                                <?php } ?>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-icon-split my-auto" style="width:15rem;height:4rem;">
-                                        <span style="width:3rem; height:4rem;" class="icon text-white-100 my-auto">
-                                            <i  class="fas fa-cart-plus py-3"></i>
-                                        </span>
-                                        <span style="width:12rem;" class="text my-auto">Agregar a la Orden</span>
-                                    </button>
-                                <?php } ?>
-                                </form>
+                                    <?php
+                                        }
+                                        echo '</div>';
+                                        echo '</div>';	
+                                    }
+                                    ?>
+                                    
+                                    <?php
+                                }
+                            }
+                            ?>
+                                </div>
                             </div>
                         </div>
-                                    
-                        <?php  
-                                    
-                          
-                                }
-                           }
-                        ?>
-                        
                     </div>
+
+                    
 
                 </div>
                 <!-- /.container-fluid -->

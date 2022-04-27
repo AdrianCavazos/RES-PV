@@ -1,8 +1,8 @@
 <?php
 
-require_once("menu/Modelo/menu.php");
+require_once("configuraciones/Modelo/configuraciones.php");
 
-$ModeloMenu = new Menu();
+$ModeloMenu = new Configuraciones();
 
 ?>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ $ModeloMenu = new Menu();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Menu - Administrador</title>
+    <title>Configuraciones - Administrador</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -137,122 +137,102 @@ $ModeloMenu = new Menu();
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Agregar platillo al menu </h1>
+                        <h1 class="h3 mb-0 text-gray-800">Configuraciones</h1>
+                    </div>
+                    <?php
+                        $configs = $ModeloMenu->getAllSettings();
+                        if($configs != null){
+                    ?>
+                    <hr>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Configuraciones del software</h1>
+                    </div>
+                    <hr>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Datos del negocio</h1>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <form class="user" action="menu/Controlador/addPlatillo.php" method="POST" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <input required type="text" class="form-control" placeholder="Nombre del platillo" name="nombre">
-                                </div>
-                                <div class="form-group">
-                                    <textarea required class="form-control" placeholder="Descripcion" name="descripcion" maxlength="50"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <input required type="text" class="form-control" placeholder="Marca" name="marca">
-                                </div>
-                                <div class="form-group">
-                                    <input required type="text" class="form-control" placeholder="Codigo" name="codigo">
-                                </div>
-                                <div class="form-group">
-                                    <div class="custom-file">
-                                        <input required type="file" class="custom-file-input" name="imagen">
-                                        <label class="custom-file-label" for="inputGroupFile01">Elige una imagen</label>
-                                    </div>
-                                </div>
-                                <div class="form group">
-                                    <select class="form-control" name="existencia">
-                                    
-                                        <option value="1"><?php echo 'En existencia'; ?></option>
-                                        <option value="0"><?php echo 'Sin existencia'; ?></option>
-                                        
-                                    </select>
-                                </div>
-                                <br>
+                            <form class="user" action="configuraciones/Controlador/setConfiguraciones.php" method="POST" enctype="multipart/form-data">
                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input requiredtype="text" class="form-control" placeholder="Costo" name="costo">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input requiredtype="text" class="form-control" placeholder="Precio de venta" name="precio">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Categoría:</label>
+                                    <label class="col-sm-2 col-form-label">Nombre comercial:</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control"  name="categoria">
-                                            <?php
-                                                $categorias = $ModeloMenu->getCategorias();
-                                                if($categorias != null){
-                                                    foreach($categorias as $categoria){
-                                                        echo '<option value="'.$categoria['id_category'].'">'.$categoria['category_name'].'</option>';
-                                                    }
-                                                }
-                                            ?>
-                                        </select>
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('nombre_comercial',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="nombre_comercial">
                                     </div>
                                 </div>
-                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Registrar Platillo">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Razón social:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('razon_social',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="razon_social">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">RFC:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('rfc',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="rfc">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Dirección 1:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('direccion_1',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="direccion_1">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Dirección 2:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('direccion_2',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="direccion_2">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Código Postal:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('direccion_cp',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="direccion_cp">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Ciudad:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('direccion_ciudad',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="direccion_ciudad">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Estado:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('direccion_estado',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="direccion_estado">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">País:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('direccion_pais',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="direccion_pais">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">E-mail:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('email',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="email">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Teléfono:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('telefono',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="telefono">
+                                    </div>
+                                </div>
+                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Actualizar datos">
                                 <hr>
                             </form>
                         </div>
                     </div>
                     <hr>
-                    <div class="card shadow mb-4 col-lg-8">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">MENU</h6>
-                        </div>
-                        <div class="card-body" >
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <th>Id</th>
-                                    <th>Producto</th>
-                                    <th>Descripcion</th>
-                                    <th>Marca</th>
-                                    <th>Costo</th>
-                                    <th>Precio de Venta</th>
-                                    <th>existencia</th>
-                                </thead>
-                                <tbody>
-                                <?php
-                                    $productos = $ModeloMenu->get();
-                                    if($productos != null){
-                                        foreach($productos as $platillo){
-                                ?>
-
-                                    <tr>
-                                        <td><?php echo $platillo['id_product'];?></td>
-                                        <td><?php echo $platillo['name_product'];?></td>
-                                        <td><?php echo $platillo['description_product'];?></td>
-                                        <td><?php echo $platillo['mark_product'];?></td>
-                                        <td><?php echo $platillo['cost_product'];?></td>
-                                        <td><?php echo $platillo['unitaryPrice_product'];?></td>
-                                        
-                                        <td>
-                                            <?php 
-                                                if ($platillo['productExistance']==1) {
-                                                    echo "En existencia";
-                                                }else{
-                                                    if ($platillo['productExistance']==0) {
-                                                        echo "Sin existencia";
-                                                    }
-                                                } 
-                                            ?>
-                                        </td>
-                                        <td>
-                                        <a href="menu/Vista/delete.php?Id=<?php echo $platillo['id_product'];?>"><span class="fa fa-trash" style="color: red;"></span></a>
-                                        </td>
-                                    </tr>
-                                <?php        
-                                        }
-                                    }
-                                ?>
-                                </tbody>
-                            </table>
-                            </div>
-                     </div>
-                    
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Datos de la sucursal</h1>
+                    </div>
+                    <?php
+                        }
+                    ?>
+                    <hr>
  
                 </div>
                 <!-- /.container-fluid -->
