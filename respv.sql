@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 26, 2022 at 05:38 PM
+-- Generation Time: Apr 27, 2022 at 03:31 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -101,7 +101,8 @@ CREATE TABLE `product_category` (
 INSERT INTO `product_category` (`id_category`, `category_name`) VALUES
 (1, 'Bebidas'),
 (2, 'Comidas'),
-(3, 'Desayunos');
+(3, 'Desayunos'),
+(6, 'Cenas');
 
 -- --------------------------------------------------------
 
@@ -216,6 +217,35 @@ INSERT INTO `selldetail` (`id_sellDetail`, `id_product`, `name_product`, `unitar
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL,
+  `setting_name` varchar(255) NOT NULL,
+  `setting_value` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `setting_name`, `setting_value`) VALUES
+(1, 'nombre_comercial', 'Mi Restaurante'),
+(2, 'razon_social', 'Mi Restaurante, SA de CV'),
+(3, 'direccion_1', 'Calle Principal 123'),
+(4, 'direccion_2', 'Colonia Centro'),
+(5, 'direccion_cp', '12345'),
+(6, 'direccion_ciudad', 'Monterrey'),
+(7, 'direccion_estado', 'Nuevo León'),
+(8, 'direccion_pais', 'México'),
+(9, 'email', 'micorreo@example.com'),
+(10, 'telefono', '1234567890'),
+(11, 'rfc', 'Su RFC aqui');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -288,6 +318,12 @@ ALTER TABLE `selldetail`
   ADD KEY `fk_idSell` (`id_sell`);
 
 --
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -313,7 +349,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `purchase`
@@ -338,6 +374,12 @@ ALTER TABLE `sell`
 --
 ALTER TABLE `selldetail`
   MODIFY `id_sellDetail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user`

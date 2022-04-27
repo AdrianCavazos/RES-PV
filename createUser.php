@@ -66,6 +66,12 @@ $ModeloUsuarios = new Usuarios();
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="adminCategorias.php">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>Categorías</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="sales.php">
                     <i class="fas fa-fw fa-credit-card"></i>
                     <span>Ventas</span></a>
@@ -77,7 +83,11 @@ $ModeloUsuarios = new Usuarios();
                     <span>Analisis Ventas</span></a>
             </li>
 
-
+            <li class="nav-item">
+                <a class="nav-link" href="configuraciones.php">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Configuraciones</span></a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
