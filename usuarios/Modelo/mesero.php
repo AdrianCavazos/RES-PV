@@ -1,7 +1,9 @@
 <?php
     
     require_once(__DIR__.'/../../db.php');
-    session_start();
+    if(!isset($_SESSION)) { 
+        session_start(); 
+    } 
 
     class Meseros extends Conexion{
         
@@ -66,9 +68,9 @@
             }
             return $rows;
         }
-        public function addSale($total, $cambio, $tiempo, $fecha){
-            $statement = $this->db->prepare("INSERT INTO sell(date_sell, time_sell, totalQuantity_sell, change_sell) VALUES (?,?,?,?)");
-            return $statement->execute([$fecha, $tiempo, $total, $cambio]);
+        public function addSale($total, $cambio, $tiempo, $fecha, $idusuario){
+            $statement = $this->db->prepare("INSERT INTO sell(date_sell, time_sell, totalQuantity_sell, change_sell, user_id) VALUES (?,?,?,?,?)");
+            return $statement->execute([$fecha, $tiempo, $total, $cambio, $idusuario]);
         }
 
         public function addSaleDetails($id, $id_producto, $cantidad, $precio, $nombre){

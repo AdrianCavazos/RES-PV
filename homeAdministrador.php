@@ -1,3 +1,32 @@
+<?php
+session_start();
+if(!empty($_SESSION["userId"])) {
+    require_once('usuarios/Modelo/usuarios.php');
+    $Modelo = new Usuarios();
+    $tipoDeUsuario = $Modelo->getUserType($_SESSION["userId"]);
+    if (!$tipoDeUsuario) {
+        $_SESSION["errorMessage"] = "Invalid Credentials";
+        header('Location: logout.php');
+    } else {
+        switch($tipoDeUsuario){
+            case 1:
+                $Usuario = $Modelo->getUser($_SESSION["userId"]);
+                $nombreUsuario = $Usuario[0]["name_user"];
+                $apellidoUsuario = $Usuario[0]["lname_user"];
+            break;
+            case 2:
+                header('Location: homeMesero.php');
+            break;
+            case 3:
+                header('Location: homeContador.php');
+            break;
+        }
+    }
+} else {
+    header('Location: logout.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,6 +103,12 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="dashboard.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="configuraciones.php">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Configuraciones</span></a>
@@ -107,6 +142,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $nombreUsuario.' '.$apellidoUsuario?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -130,7 +166,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Bienvenido! :D </h1>
+                        <h1 class="h3 mb-0 text-gray-800">Bienvenido <?php echo $nombreUsuario.' '.$apellidoUsuario?>! :D </h1>
                     </div>
 
 
@@ -175,7 +211,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="index.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

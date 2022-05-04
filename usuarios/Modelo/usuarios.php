@@ -1,7 +1,9 @@
 <?php
     
     require_once(__DIR__.'/../../db.php');
-    session_start();
+    if(!isset($_SESSION)) { 
+        session_start(); 
+    } 
 
     class Usuarios extends Conexion{
         
@@ -46,13 +48,19 @@
                 if($user!=null){
                     switch($user['userType']){
                         case 1:
-                            header('Location:../../homeAdministrador.php');
+                            $_SESSION["userId"] = $user['id_user'];
+                            return(1);
+                            //header('Location:../../homeAdministrador.php');
                         break;
                         case 2:
-                            header('Location:../../homeMesero.php');
+                            $_SESSION["userId"] = $user['id_user'];
+                            return(2);
+                            //header('Location:../../homeMesero.php');
                         break;
                         case 3:
-                            header('Location:../../homeContador.php');
+                            $_SESSION["userId"] = $user['id_user'];
+                            return(3);
+                            //header('Location:../../homeContador.php');
                         break;
                     }
                 }else{
@@ -75,14 +83,26 @@
             return $rows;
         }
 
-        public function getUserType(){
+        public function getUser($Id){
             $rows = null;
-            $statement = $this->db->prepare("SELECT * FROM userType");
+            $statement = $this->db->prepare("SELECT * FROM user WHERE id_user = :Id");
+            $statement->bindParam(':Id',$Id);
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function getUserType($Id){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT userType FROM user WHERE id_user = :Id");
+            $statement->bindParam(':Id',$Id);
             $statement->execute();
             while($result = $statement->fetch()){
                 $rows[] = $result;
             }
-            return $rows;
+            return $rows[0]['userType'];
         }
 
         public function delete($Id){
