@@ -1,10 +1,34 @@
 <?php
-
-require_once("ventas/Modelo/ventas.php");
-
-$ModeloVentas = new Ventas();
-
+session_start();
+if(!empty($_SESSION["userId"])) {
+    require_once('usuarios/Modelo/usuarios.php');
+    $Modelo = new Usuarios();
+    $tipoDeUsuario = $Modelo->getUserType($_SESSION["userId"]);
+    if (!$tipoDeUsuario) {
+        $_SESSION["errorMessage"] = "Invalid Credentials";
+        header('Location: logout.php');
+    } else {
+        switch($tipoDeUsuario){
+            case 1:
+                $Usuario = $Modelo->getUser($_SESSION["userId"]);
+                $nombreUsuario = $Usuario[0]["name_user"];
+                $apellidoUsuario = $Usuario[0]["lname_user"];
+                require_once("ventas/Modelo/ventas.php");
+                $ModeloVentas = new Ventas();
+            break;
+            case 2:
+                header('Location: homeMesero.php');
+            break;
+            case 3:
+                header('Location: homeContador.php');
+            break;
+        }
+    }
+} else {
+    header('Location: logout.php');
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,6 +105,12 @@ $ModeloVentas = new Ventas();
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="dashboard.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="configuraciones.php">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Configuraciones</span></a>
@@ -114,6 +144,7 @@ $ModeloVentas = new Ventas();
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $nombreUsuario.' '.$apellidoUsuario?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -251,34 +282,86 @@ $ModeloVentas = new Ventas();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <td>id Articulo Vendido</td>
-                                            <td>id Producto</td>
-                                            <td>Nombre del producto</td>
-                                            <td>Precio Unitario</td>
-                                            <td>Cantidad</td>
-                                        </tr>
-                                        <?php
-                                            $datosVenta = $ModeloVentas->getArticulosVenta($venta['id_sell']);
-                                            if($datosVenta != null) {
-                                                foreach($datosVenta as $datoVenta) {
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $datoVenta['id_sellDetail'];?></td>
-                                            <td><?php echo $datoVenta['id_product'];?></td>
-                                            <td><?php echo $datoVenta['name_product'];?></td>
-                                            <td><?php echo "$".$datoVenta['unitaryPrice_product'];?></td>
-                                            <td><?php echo $datoVenta['cuantity_sellDetail'];?></td>
-                                        </tr>
-                                        <?php   
-                                                }
-                                            }
-                                        ?>
-                                    </table>
+                            </div>
+                            
+                            <div class="row">
+                                <!-- Tasks Card Example -->
+                                <div class="col-xl col-md-6 mb-4">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Mesero
+                                                    </div>
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col-auto">
+                                                            <?php $Mesero = $Modelo->getUser($venta['user_id']); 
+                                                            $nombreMesero = $Mesero[0]["name_user"];
+                                                            $apellidoMesero = $Mesero[0]["lname_user"];?>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $nombreMesero.' '.$apellidoMesero; ?></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-user fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div> 
+
+                                <!-- Tasks Card Example -->
+                                <div class="col-xl col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">ID del Mesero
+                                                    </div>
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col-auto">
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $venta['user_id']; ?></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-hashtag fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>id Articulo Vendido</td>
+                                        <td>id Producto</td>
+                                        <td>Nombre del producto</td>
+                                        <td>Precio Unitario</td>
+                                        <td>Cantidad</td>
+                                    </tr>
+                                    <?php
+                                        $datosVenta = $ModeloVentas->getArticulosVenta($venta['id_sell']);
+                                        if($datosVenta != null) {
+                                            foreach($datosVenta as $datoVenta) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $datoVenta['id_sellDetail'];?></td>
+                                        <td><?php echo $datoVenta['id_product'];?></td>
+                                        <td><?php echo $datoVenta['name_product'];?></td>
+                                        <td><?php echo "$".$datoVenta['unitaryPrice_product'];?></td>
+                                        <td><?php echo $datoVenta['cuantity_sellDetail'];?></td>
+                                    </tr>
+                                    <?php   
+                                            }
+                                        }
+                                    ?>
+                                </table>
+                            </div>
+                        
                             <?php
                                 }
                             }
@@ -325,7 +408,7 @@ $ModeloVentas = new Ventas();
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="index.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

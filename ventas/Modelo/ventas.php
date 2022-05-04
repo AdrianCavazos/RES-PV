@@ -1,7 +1,9 @@
 <?php
     
     require_once(__DIR__.'/../../db.php');
-    session_start();
+    if(!isset($_SESSION)) { 
+        session_start(); 
+    } 
 
     class Ventas extends Conexion{
         

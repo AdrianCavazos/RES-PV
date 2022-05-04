@@ -1,10 +1,36 @@
 <?php
-
-require_once("menu/Modelo/menu.php");
-
-$ModeloMenu = new Menu();
-
+session_start();
+if(!empty($_SESSION["userId"])) {
+    require_once('usuarios/Modelo/usuarios.php');
+    $Modelo = new Usuarios();
+    $tipoDeUsuario = $Modelo->getUserType($_SESSION["userId"]);
+    if (!$tipoDeUsuario) {
+        $_SESSION["errorMessage"] = "Invalid Credentials";
+        header('Location: logout.php');
+    } else {
+        switch($tipoDeUsuario){
+            case 1:
+                $Usuario = $Modelo->getUser($_SESSION["userId"]);
+                $nombreUsuario = $Usuario[0]["name_user"];
+                $apellidoUsuario = $Usuario[0]["lname_user"];
+                require_once("menu/Modelo/menu.php");
+                $ModeloMenu = new Menu();
+                require_once('ventas/Modelo/ventas.php');
+                $ModeloVenta = new Ventas();
+            break;
+            case 2:
+                header('Location: homeMesero.php');
+            break;
+            case 3:
+                header('Location: homeContador.php');
+            break;
+        }
+    }
+} else {
+    header('Location: logout.php');
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,6 +107,12 @@ $ModeloMenu = new Menu();
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="dashboard.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="configuraciones.php">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Configuraciones</span></a>
@@ -114,6 +146,7 @@ $ModeloMenu = new Menu();
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $nombreUsuario.' '.$apellidoUsuario?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -149,12 +182,14 @@ $ModeloMenu = new Menu();
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                             <th>ID Venta</th>
+                                            <th>ID Venta</th>
                                             <th>ID Producto</th>
                                             <th>Nombre Producto</th>
                                             <th>Precio</th>
                                             <th>Cantidad </th>
                                             <th>ID Venta Individual</th>
+                                            <th>Mesero</th>
+                                            <th>ID Mesero</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -165,6 +200,8 @@ $ModeloMenu = new Menu();
                                             <th>Precio</th>
                                             <th>Cantidad </th>
                                             <th>ID Venta Individual</th>
+                                            <th>Mesero</th>
+                                            <th>ID Mesero</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -172,7 +209,10 @@ $ModeloMenu = new Menu();
                                         $nombreTabla = "selldetail";
                                         $detalles = $ModeloMenu -> getTabla($nombreTabla);
                                         foreach($detalles as $detalle){
-                                        ?>
+                                            $VentaActual = $ModeloVenta->getVenta($detalle['id_sell']);
+                                            $Mesero = $Modelo->getUser($VentaActual[0]['user_id']); 
+                                            $nombreMesero = $Mesero[0]["name_user"];
+                                            $apellidoMesero = $Mesero[0]["lname_user"];?>
                                         <tr>
                                             <td><?php echo $detalle['id_sellDetail'] ?></td>
                                             <td><?php echo $detalle['id_product'] ?></td>
@@ -180,6 +220,8 @@ $ModeloMenu = new Menu();
                                             <td><?php echo $detalle['unitaryPrice_product'] ?></td>
                                             <td><?php echo $detalle['cuantity_sellDetail'] ?></td>
                                             <td><?php echo $detalle['id_sell'] ?></td>
+                                            <td><?php echo $nombreMesero.' '.$apellidoMesero ?></td>
+                                            <td><?php echo $VentaActual[0]['user_id'] ?></td>
                                         </tr>
                                         <?php 
                                         }
@@ -231,7 +273,7 @@ $ModeloMenu = new Menu();
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="index.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

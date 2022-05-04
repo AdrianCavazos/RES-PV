@@ -1,9 +1,32 @@
 <?php
-
-require_once("ventas/Modelo/ventas.php");
-
-$ModeloVentas = new Ventas();
-
+session_start();
+if(!empty($_SESSION["userId"])) {
+    require_once('usuarios/Modelo/usuarios.php');
+    $Modelo = new Usuarios();
+    $tipoDeUsuario = $Modelo->getUserType($_SESSION["userId"]);
+    if (!$tipoDeUsuario) {
+        $_SESSION["errorMessage"] = "Invalid Credentials";
+        header('Location: logout.php');
+    } else {
+        switch($tipoDeUsuario){
+            case 1:
+                header('Location: homeAdministrador.php');
+            break;
+            case 2:
+                header('Location: homeMesero.php');
+            break;
+            case 3:
+                $Usuario = $Modelo->getUser($_SESSION["userId"]);
+                $nombreUsuario = $Usuario[0]["name_user"];
+                $apellidoUsuario = $Usuario[0]["lname_user"];
+                require_once("ventas/Modelo/ventas.php");
+                $ModeloVentas = new Ventas();
+            break;
+        }
+    }
+} else {
+    header('Location: logout.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -83,14 +106,13 @@ $ModeloVentas = new Ventas();
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $nombreUsuario.' '.$apellidoUsuario ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -214,8 +236,7 @@ $ModeloVentas = new Ventas();
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -227,7 +248,7 @@ $ModeloVentas = new Ventas();
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="index.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

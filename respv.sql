@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 27, 2022 at 03:31 AM
+-- Generation Time: May 04, 2022 at 04:30 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -39,17 +39,6 @@ CREATE TABLE `carrito_tmp` (
   `impuesto` int(100) NOT NULL DEFAULT 0,
   `total` int(100) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `carrito_tmp`
---
-
-INSERT INTO `carrito_tmp` (`id_tmp`, `mesa`, `id_product`, `name_product`, `unitaryPrice_product`, `cantidad`, `efectivo`, `cambio`, `impuesto`, `total`) VALUES
-(65, 1, 2, 'Zopes', 90, 3, 300, -30, 27, 270),
-(66, 1, 4, 'Chilaquiles rojos', 75, 2, 0, 0, 0, 0),
-(67, 1, 18, 'Pepsi', 15, 1, 0, 0, 0, 0),
-(68, 2, 18, 'Pepsi', 15, 2, 0, 0, 0, 0),
-(69, 2, 2, 'Zopes', 90, 1, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -102,7 +91,7 @@ INSERT INTO `product_category` (`id_category`, `category_name`) VALUES
 (1, 'Bebidas'),
 (2, 'Comidas'),
 (3, 'Desayunos'),
-(6, 'Cenas');
+(7, 'Cenas');
 
 -- --------------------------------------------------------
 
@@ -142,28 +131,32 @@ CREATE TABLE `sell` (
   `date_sell` date NOT NULL,
   `time_sell` time NOT NULL,
   `totalQuantity_sell` bigint(20) NOT NULL,
-  `change_sell` int(11) NOT NULL
+  `change_sell` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `sell`
 --
 
-INSERT INTO `sell` (`id_sell`, `date_sell`, `time_sell`, `totalQuantity_sell`, `change_sell`) VALUES
-(9, '2022-03-06', '11:09:08', 900, -100),
-(10, '2022-03-06', '11:09:23', 900, -100),
-(11, '2022-03-06', '11:10:12', 675, -175),
-(12, '2022-03-06', '11:14:34', 510, -90),
-(13, '2022-03-06', '11:15:29', 510, -90),
-(14, '2022-03-06', '11:17:34', 675, -25),
-(15, '2022-03-06', '11:17:46', 555, 155),
-(16, '2022-03-08', '01:23:21', 450, -150),
-(17, '2022-03-08', '01:25:32', 330, 97),
-(18, '2022-03-08', '03:52:48', 504, -96),
-(19, '2022-03-08', '03:38:23', 645, -55),
-(20, '2022-03-08', '08:08:32', 405, -95),
-(21, '2022-03-08', '08:23:36', 195, -5),
-(22, '2022-03-09', '12:28:11', 520, -80);
+INSERT INTO `sell` (`id_sell`, `date_sell`, `time_sell`, `totalQuantity_sell`, `change_sell`, `user_id`) VALUES
+(10, '2022-03-06', '11:09:23', 900, -100, 6),
+(11, '2022-03-06', '11:10:12', 675, -175, 6),
+(12, '2022-03-06', '11:14:34', 510, -90, 6),
+(13, '2022-03-06', '11:15:29', 510, -90, 6),
+(14, '2022-03-06', '11:17:34', 675, -25, 6),
+(15, '2022-03-06', '11:17:46', 555, 155, 6),
+(16, '2022-03-08', '01:23:21', 450, -150, 6),
+(17, '2022-03-08', '01:25:32', 330, 97, 6),
+(18, '2022-03-08', '03:52:48', 504, -96, 6),
+(19, '2022-03-08', '03:38:23', 645, -55, 6),
+(20, '2022-03-08', '08:08:32', 405, -95, 6),
+(21, '2022-03-08', '08:23:36', 195, -5, 6),
+(22, '2022-03-09', '12:28:11', 520, -80, 6),
+(23, '2022-05-03', '14:31:59', 120, 0, 7),
+(24, '2022-05-03', '14:32:52', 435, -30, 7),
+(25, '2022-05-03', '14:45:21', 90, -10, 7),
+(26, '2022-05-03', '17:52:57', 90, -110, 7);
 
 -- --------------------------------------------------------
 
@@ -212,7 +205,16 @@ INSERT INTO `selldetail` (`id_sellDetail`, `id_product`, `name_product`, `unitar
 (32, 15, 'Pepsi', 15, 3, 21),
 (33, 2, 'Zopes', 90, 3, 22),
 (34, 4, 'Chilaquiles rojos', 75, 2, 22),
-(35, 17, 'Pepsi', 20, 5, 22);
+(35, 17, 'Pepsi', 20, 5, 22),
+(36, 18, 'Pepsi', 15, 2, 23),
+(37, 2, 'Zopes', 90, 1, 23),
+(38, 2, 'Zopes', 90, 3, 24),
+(39, 4, 'Chilaquiles rojos', 75, 2, 24),
+(40, 18, 'Pepsi', 15, 1, 24),
+(41, 18, 'Pepsi', 15, 1, 25),
+(42, 4, 'Chilaquiles rojos', 75, 1, 25),
+(43, 4, 'Chilaquiles rojos', 75, 1, 26),
+(44, 18, 'Pepsi', 15, 1, 26);
 
 -- --------------------------------------------------------
 
@@ -231,7 +233,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `setting_name`, `setting_value`) VALUES
-(1, 'nombre_comercial', 'Mi Restaurante'),
+(1, 'nombre_comercial', 'RES-PV'),
 (2, 'razon_social', 'Mi Restaurante, SA de CV'),
 (3, 'direccion_1', 'Calle Principal 123'),
 (4, 'direccion_2', 'Colonia Centro'),
@@ -267,7 +269,8 @@ INSERT INTO `user` (`id_user`, `name_user`, `lname_user`, `phone_user`, `email_u
 (1, 'Adrian', 'Cavazos', '8115681580', 'cavazos_adrian@hotmail.com', 'adrian01', 1),
 (5, 'Julio Adrian', 'Cavazos', '8116882007', 'adrian@outlook.com', 'adrian123', 3),
 (6, 'Oscar Ignacio', 'Guajardo Hernández', '811111111', 'oscar@gmail.com', 'contrasena', 2),
-(7, 'Juan', 'Mesero', '1235467', 'juan@mesero.com', 'juan', 2);
+(7, 'Juan', 'Mesero', '1235467', 'juan@mesero.com', 'juan', 2),
+(11, 'Humberto', 'Nieva', '123641246', 'humberto@gmail.com', 'admin', 1);
 
 --
 -- Indexes for dumped tables
@@ -337,7 +340,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `carrito_tmp`
 --
 ALTER TABLE `carrito_tmp`
-  MODIFY `id_tmp` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id_tmp` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -349,7 +352,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `product_category`
 --
 ALTER TABLE `product_category`
-  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `purchase`
@@ -367,13 +370,13 @@ ALTER TABLE `purchasedetail`
 -- AUTO_INCREMENT for table `sell`
 --
 ALTER TABLE `sell`
-  MODIFY `id_sell` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_sell` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `selldetail`
 --
 ALTER TABLE `selldetail`
-  MODIFY `id_sellDetail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_sellDetail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -385,7 +388,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

@@ -1,10 +1,34 @@
 <?php
-
-require_once("usuarios/Modelo/mesero.php");
-
-$ModeloMesero  = new Meseros();
-
+session_start();
+if(!empty($_SESSION["userId"])) {
+    require_once('usuarios/Modelo/usuarios.php');
+    $Modelo = new Usuarios();
+    $tipoDeUsuario = $Modelo->getUserType($_SESSION["userId"]);
+    if (!$tipoDeUsuario) {
+        $_SESSION["errorMessage"] = "Invalid Credentials";
+        header('Location: logout.php');
+    } else {
+        switch($tipoDeUsuario){
+            case 1:
+                header('Location: homeAdministrador.php');
+            break;
+            case 2:
+                $Usuario = $Modelo->getUser($_SESSION["userId"]);
+                $nombreUsuario = $Usuario[0]["name_user"];
+                $apellidoUsuario = $Usuario[0]["lname_user"];
+                require_once("usuarios/Modelo/mesero.php");
+                $ModeloMesero  = new Meseros();
+            break;
+            case 3:
+                header('Location: homeContador.php');
+            break;
+        }
+    }
+} else {
+    header('Location: logout.php');
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,8 +113,10 @@ $ModeloMesero  = new Meseros();
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
+
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $nombreUsuario.' '.$apellidoUsuario?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -385,7 +411,7 @@ $ModeloMesero  = new Meseros();
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="index.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>
