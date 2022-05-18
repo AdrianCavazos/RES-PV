@@ -97,6 +97,47 @@
             $statement = $this->db->prepare("INSERT INTO carrito_tmp(mesa, id_product, name_product, unitaryPrice_product, cantidad) VALUES (?,?,?,?,?)");
             return $statement->execute([$mesa, $id_product, $name_product, $unitaryPrice_product, $cantidad]);
         }
+
+        public function getTimezone(){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_name='timezone'");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function getIva(){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT setting_value FROM settings WHERE setting_name='porcentaje_iva'");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function getAllSettings(){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM settings");
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function getUser($Id){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM user WHERE id_user = :Id");
+            $statement->bindParam(':Id',$Id);
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
         
     }
 

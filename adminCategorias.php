@@ -181,7 +181,35 @@ if(!empty($_SESSION["userId"])) {
                             </form>
                         </div>
                     </div>
-                    <hr>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Editar categoría</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="user" action="menu/Controlador/editCategoria.php" method="POST" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Categoría:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="idcategoria">
+                                            <?php
+                                                $categorias = $ModeloMenu->getCategorias();
+                                                if($categorias != null){
+                                                    foreach($categorias as $categoria){
+                                                        echo '<option value="'.$categoria['id_category'].'">'.$categoria['category_name'].'</option>';
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input required type="text" class="form-control" placeholder="Nuevo nombre de categoría" name="nuevonombre">
+                                </div>
+                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Editar categoria">
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Eliminar categoría</h1>
                     </div>

@@ -217,7 +217,7 @@ if(!empty($_SESSION["userId"])) {
                                             <td><?php echo $detalle['id_sellDetail'] ?></td>
                                             <td><?php echo $detalle['id_product'] ?></td>
                                             <td><?php echo $detalle['name_product'] ?></td>
-                                            <td><?php echo $detalle['unitaryPrice_product'] ?></td>
+                                            <td><?php echo number_format(round($detalle['unitaryPrice_product'],2), 2, '.', ',') ?></td>
                                             <td><?php echo $detalle['cuantity_sellDetail'] ?></td>
                                             <td><?php echo $detalle['id_sell'] ?></td>
                                             <td><?php echo $nombreMesero.' '.$apellidoMesero ?></td>

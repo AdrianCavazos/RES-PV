@@ -1,8 +1,5 @@
 <?php
     require_once('../Modelo/menu.php');
-
-
-    
     $Id = $_GET['Id'];
 ?>
 

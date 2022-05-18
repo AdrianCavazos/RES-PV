@@ -250,7 +250,7 @@ if(!empty($_SESSION["userId"])) {
                                             <div class="card-body" style=" height: 30 rem; ">
                                                 <img style='display:block; width:15rem;height:10rem;' src="data:image/jpg;base64,<?php echo base64_encode($producto['img_product']); ?>"/>
                                                 <br>
-                                                <h5 class="card-title"><?php echo $producto['name_product'];?> $<?php echo $producto['unitaryPrice_product'];?></td></h5>
+                                                <h5 class="card-title"><?php echo $producto['name_product'];?> $<?php echo number_format(round($producto['unitaryPrice_product'],2), 2, '.', ',');?></td></h5>
                                                 <p class="card-text"><?php echo $producto['description_product'];?></p>
                                                 
                                                 <!-- TODO PARA EL FORMS -->
@@ -366,7 +366,7 @@ if(!empty($_SESSION["userId"])) {
                             <tr>
                                 <th scope="row"><?php echo $mesa; ?></th>
                                 <td><?php echo $detalle['name_product']; ?></td>
-                                <td><?php echo $detalle['unitaryPrice_product']; ?></td>
+                                <td><?php echo number_format(round($detalle['unitaryPrice_product'],2), 2, '.', ','); ?></td>
                                 <td><?php echo $detalle['cantidad']; ?></td>
                                 <td> 
                                     <form method="post" action="usuarios/Controlador/deleteOrder.php">
