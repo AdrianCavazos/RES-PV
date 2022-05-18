@@ -184,10 +184,23 @@ if(!empty($_SESSION["userId"])) {
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Huso horario:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" placeholder="America/Monterrey">
-                                    </div> <!-- TODO: Lista de husos horarios para configurar -->
+                                        <?php
+                                            $valor=array_search('timezone',array_column($configs,'setting_name'));
+                                            $currentTimezone=$configs[$valor][2];
+                                            echo "<select class=\"form-control\" name=\"timezone\">";
+                                            $tzlist = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+                                            foreach($tzlist as $value) {
+                                                if ($value != $currentTimezone) {
+                                                    echo "<option value=". $value .">". $value ."</option>";
+                                                } else {
+                                                    echo "<option value=". $value ." selected>". $value ."</option>";
+                                                }
+                                            }
+                                            echo "<select>";
+                                        ?>
+                                    </div>
                                 </div>
-                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Actualizar datos" disabled>
+                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Actualizar datos" name="datosDelNegocio">
                                 <hr>
                             </form>
                         </div>
@@ -265,6 +278,12 @@ if(!empty($_SESSION["userId"])) {
                                         <input type="text" class="form-control" placeholder="<?php $valor=array_search('telefono',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="telefono">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">% IVA:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('porcentaje_iva',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="porcentaje_iva">
+                                    </div>
+                                </div>
                                 <input type ="submit" class="btn btn-primary btn-user btn-block" value="Actualizar datos" name="datosDelNegocio">
                                 <hr>
                             </form>
@@ -273,6 +292,32 @@ if(!empty($_SESSION["userId"])) {
                     <hr>
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Datos de la sucursal</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="user" action="configuraciones/Controlador/setConfiguraciones.php" method="POST" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Número de Caja:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('numero_caja',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="numero_caja">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Número de Sucursal:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('numero_sucursal',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="numero_sucursal">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Contacto de Sucursal:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="<?php $valor=array_search('contacto_sucursal',array_column($configs,'setting_name'));echo $configs[$valor][2];?>" name="contacto_sucursal">
+                                    </div>
+                                </div>
+                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Actualizar datos" name="datosDelNegocio">
+                                <hr>
+                            </form>
+                        </div>
                     </div>
                     <?php
                         }

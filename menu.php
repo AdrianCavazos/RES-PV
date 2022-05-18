@@ -165,7 +165,103 @@ if(!empty($_SESSION["userId"])) {
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+                    <?php
+                        if(!empty($_GET['editarId'])) {
+                        //cuando pide editar platillo:
+                        $idPlatillo = $_GET['editarId'];
+                        $datosDePlatillo = $ModeloMenu->getPlatillo($idPlatillo);
+                        if($datosDePlatillo != null){
+                            foreach($datosDePlatillo as $datoPlatillo){
+                    ?>
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Editar platillo</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="user" action="menu/Controlador/editPlatillo.php" method="POST" enctype="multipart/form-data">
+                                <input name="id" type="hidden" value="<?php echo $idPlatillo;?>" />
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Nombre:</label>
+                                    <div class="col-sm-10">
+                                    <input required type="text" class="form-control" value="<?php echo $datoPlatillo['name_product'];?>" name="nombre">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Descripcion:</label>
+                                    <div class="col-sm-10">
+                                    <textarea required class="form-control" name="descripcion" maxlength="50"><?php echo $datoPlatillo['description_product'];?></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Marca:</label>
+                                    <div class="col-sm-10">
+                                    <input required type="text" class="form-control" value="<?php echo $datoPlatillo['mark_product'];?>" name="marca">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Codigo:</label>
+                                    <div class="col-sm-10">
+                                    <input required type="text" class="form-control" value="<?php echo $datoPlatillo['code_product'];?>" name="codigo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="imagen">
+                                        <label class="custom-file-label" for="inputGroupFile01">Elige una imagen</label>
+                                    </div>
+                                </div>
+                                <div class="form group">
+                                    <select class="form-control" name="existencia">
+                                    
+                                        <option value="1"><?php echo 'En existencia'; ?></option>
+                                        <option value="0"><?php echo 'Sin existencia'; ?></option>
+                                        
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Costo:</label>
+                                    <div class="col-sm-10">
+                                    <input requiredtype="text" class="form-control" value="<?php echo $datoPlatillo['cost_product'];?>" name="costo">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Precio de venta:</label>
+                                    <div class="col-sm-10">
+                                    <input requiredtype="text" class="form-control" value="<?php echo $datoPlatillo['unitaryPrice_product'];?>" name="precio">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Categoría:</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control"  name="categoria">
+                                            <?php
+                                                $categorias = $ModeloMenu->getCategorias();
+                                                if($categorias != null){
+                                                    foreach($categorias as $categoria){
+                                                        if ($categoria['id_category'] == $datoPlatillo['category_product']) {
+                                                            echo '<option value="'.$categoria['id_category'].'" selected>'.$categoria['category_name'].'</option>';
+                                                        } else {
+                                                            echo '<option value="'.$categoria['id_category'].'">'.$categoria['category_name'].'</option>';
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type ="submit" class="btn btn-primary btn-user btn-block" value="Editar Platillo">
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
+                    <hr>
+                    <?php
+                            }
+                            }
+                        } else { //cuando no esta pidiendo editar platillo:
+                    ?>
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Agregar platillo al menu </h1>
@@ -229,7 +325,7 @@ if(!empty($_SESSION["userId"])) {
                         </div>
                     </div>
                     <hr>
-                    <div class="card shadow mb-4 col-lg-8">
+                    <div class="card shadow mb-4 col-lg w-100">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">MENU</h6>
                         </div>
@@ -237,6 +333,7 @@ if(!empty($_SESSION["userId"])) {
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
+                                    <th></th>
                                     <th>Id</th>
                                     <th>Producto</th>
                                     <th>Descripcion</th>
@@ -251,14 +348,14 @@ if(!empty($_SESSION["userId"])) {
                                     if($productos != null){
                                         foreach($productos as $platillo){
                                 ?>
-
                                     <tr>
+                                        <td><a href="menu.php?editarId=<?php echo $platillo['id_product'];?>"><span class="fa fa-edit" style="color: blue;"></span></a></td>
                                         <td><?php echo $platillo['id_product'];?></td>
                                         <td><?php echo $platillo['name_product'];?></td>
                                         <td><?php echo $platillo['description_product'];?></td>
                                         <td><?php echo $platillo['mark_product'];?></td>
-                                        <td><?php echo $platillo['cost_product'];?></td>
-                                        <td><?php echo $platillo['unitaryPrice_product'];?></td>
+                                        <td><?php echo number_format(round($platillo['cost_product'],2), 2, '.', ',');?></td>
+                                        <td><?php echo number_format(round($platillo['unitaryPrice_product'],2), 2, '.', ',');?></td>
                                         
                                         <td>
                                             <?php 
@@ -283,7 +380,9 @@ if(!empty($_SESSION["userId"])) {
                             </table>
                             </div>
                      </div>
-                    
+                    <?php
+                        } //cierra else para cuando no esta pidiendo editar platillo
+                    ?>
  
                 </div>
                 <!-- /.container-fluid -->

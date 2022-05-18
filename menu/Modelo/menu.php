@@ -93,6 +93,56 @@
             return $rows;
         }
 
+        public function getPlatillo($id){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT * FROM product WHERE id_product = :id");
+            $statement->bindParam(':id', $id);
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function setPlatillo($id, $nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio, $categoria, $imagen){
+            $rows = null;
+            $statement = $this->db->prepare("UPDATE product SET name_product=:nombre, description_product=:descripcion, mark_product=:marca, code_product=:codigo, productExistance=:existencia, cost_product=:costo, unitaryPrice_product=:precio, category_product=:categoria, img_product=:imagen WHERE id_product = :idproduct");
+            $statement->bindParam(':idproduct', $id);
+            $statement->bindParam(':nombre', $nombre);
+            $statement->bindParam(':descripcion', $descripcion);
+            $statement->bindParam(':marca', $marca);
+            $statement->bindParam(':codigo', $codigo);
+            $statement->bindParam(':existencia', $existencia);
+            $statement->bindParam(':costo', $costo);
+            $statement->bindParam(':precio', $precio);
+            $statement->bindParam(':categoria', $categoria);
+            $statement->bindParam(':imagen', $imagen);
+            if ($statement->execute()) {
+                header('Location: ../../menu.php');
+            }else{
+                header('Location: ../../menu.php');
+            }
+        }
+
+        public function setPlatilloSinImagen($id, $nombre, $descripcion, $marca, $codigo, $existencia, $costo, $precio, $categoria){
+            $rows = null;
+            $statement = $this->db->prepare("UPDATE product SET name_product=:nombre, description_product=:descripcion, mark_product=:marca, code_product=:codigo, productExistance=:existencia, cost_product=:costo, unitaryPrice_product=:precio, category_product=:categoria WHERE id_product = :idproduct");
+            $statement->bindParam(':idproduct', $id);
+            $statement->bindParam(':nombre', $nombre);
+            $statement->bindParam(':descripcion', $descripcion);
+            $statement->bindParam(':marca', $marca);
+            $statement->bindParam(':codigo', $codigo);
+            $statement->bindParam(':existencia', $existencia);
+            $statement->bindParam(':costo', $costo);
+            $statement->bindParam(':precio', $precio);
+            $statement->bindParam(':categoria', $categoria);
+            if ($statement->execute()) {
+                header('Location: ../../menu.php');
+            }else{
+                header('Location: ../../menu.php');
+            }
+        }
+
         public function getCategorias(){
             $rows = null;
             $statement = $this->db->prepare("SELECT * FROM product_category");
@@ -101,6 +151,29 @@
                 $rows[] = $result; 
             }
             return $rows;
+        }
+
+        public function getCategoria($id){
+            $rows = null;
+            $statement = $this->db->prepare("SELECT category_name FROM product_category WHERE id_category = :id");
+            $statement->bindParam(':id', $id);
+            $statement->execute();
+            while ($result = $statement->fetch()) {
+                $rows[] = $result; 
+            }
+            return $rows;
+        }
+
+        public function setCategoria($categoryname, $idcategory){
+            $rows = null;
+            $statement = $this->db->prepare("UPDATE product_category SET category_name = :categoryname WHERE id_category = :idcategory");
+            $statement->bindParam(':categoryname', $categoryname);
+            $statement->bindParam(':idcategory', $idcategory);
+            if ($statement->execute()) {
+                header('Location: ../../adminCategorias.php');
+            }else{
+                header('Location: ../../adminCategorias.php');
+            }
         }
 
         public function getUserType(){

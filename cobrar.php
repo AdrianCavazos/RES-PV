@@ -142,7 +142,7 @@ if(!empty($_SESSION["userId"])) {
                         <h3 class=" mb-0 text-gray-900"> COBRAR </h3>
                     </div>
                     <p class="mb-4">Selecciona la mesa que cobraras en efectivo para saber los detalles de su orden</p>
-                    
+
                     <?php
                         //VERIFICA SI SE ESCOGIÓ UNA MESA
                         if(isset($_GET['mesa'])){
@@ -174,9 +174,9 @@ if(!empty($_SESSION["userId"])) {
                                         <tr>
                                             <th scope="row"><?php echo $detalle['name_product']; ?></th>
                                             <td><?php echo $detalle['cantidad']; ?></td>
-                                            <td><?php echo $detalle['unitaryPrice_product']; ?></td>
-                                            <td><?php echo $detalle['cantidad'] * $detalle['unitaryPrice_product']; ?></td>
-                                            <?php $total = $total + $detalle['cantidad'] * $detalle['unitaryPrice_product']; ?>
+                                            <td><?php echo number_format(round($detalle['unitaryPrice_product'],2), 2, '.', ','); ?></td>
+                                            <td><?php echo $detalle['cantidad'] * number_format(round($detalle['unitaryPrice_product'],2), 2, '.', ','); ?></td>
+                                            <?php $total = $total + $detalle['cantidad'] * number_format(round($detalle['unitaryPrice_product'],2), 2, '.', ','); ?>
                                         </tr>
                                     <?php }} ?>
                                 </tbody>
@@ -192,18 +192,24 @@ if(!empty($_SESSION["userId"])) {
                                     if($detalles[0]['efectivo'] != 0){
                                 ?>
                                 <div class="d-flex justify-content-end mr-4">
-                                    <h6 class="text-dark ml-1">Efectivo: <?php echo $detalles[0]['efectivo']; ?> </h6>
-                                    <h6 class="text-dark ml-1">Cambio: <?php echo $detalles[0]['total'] - $detalles[0]['efectivo']; ?> </h6>
-                                    <h6 class="text-dark ml-1">IVA 10%: <?php echo $detalles[0]['impuesto']; ?> </h6>
-
-                                    
+                                    <h6 class="text-dark ml-1">Efectivo: <?php echo number_format(round($detalles[0]['efectivo'],2), 2, '.', ','); ?> </h6>
+                                    <h6 class="text-dark ml-1">Cambio: <?php echo number_format(round($detalles[0]['total'] - $detalles[0]['efectivo'],2), 2, '.', ','); ?> </h6>
+                                    <h6 class="text-dark ml-1">IVA <?php $iva=$ModeloMesero->getIva();echo $iva[0][0];?>%: <?php echo number_format(round($detalles[0]['impuesto'],2), 2, '.', ','); ?> </h6>
+                                </div>
+                                <div class="form-check d-flex justify-content-end mr-4">
+                                    <label style="font-size: 1.5em">
+                                        <label class="form-check-label ml-1" for="flexCheckDefault">Generar ticket </label>
+                                        <input form="form" type="checkbox" value="Yes" id="generarTicket" name="generarTicket" checked>
+                                    </label>
                                 </div>
                                 <div class="row" style="width:100%;height:4rem;">
-                                    <form class="form-inline" method="post" action="usuarios/Controlador/endSale.php" style="width:100%;height:4rem;">
+                                    <form id="form" class="form-inline" method="post" action="usuarios/Controlador/endSale.php" style="width:100%;height:4rem;">
                                         <input name="mesaEndSale" type="hidden" value="<?php echo $mesa;?>" />
                                         <input name="totalEndSale" type="hidden" value="<?php echo $total;?>" />
+                                        <input name="efectivoEndSale" type="hidden" value="<?php echo $detalles[0]['efectivo'];?>" />
                                         <input name="cambioEndSale" type="hidden" value="<?php echo $detalles[0]['cambio'];?>" />
                                         <input name="idMeseroSale" type="hidden" value="<?php echo $idUsuario;?>" />
+                                        <input name="timezone" type="hidden" value="<?php $timezone=$ModeloMesero->getTimezone();echo $timezone[0][0]?>" />
                                         <button class="btn btn-success btn-icon-split my-auto" action="submit" style="width:100%;height:4rem;">
                                             <span style="width:80%;" class="text my-auto">FINALIZAR LA VENTA</span>
                                             <span style="width:20%; height:4rem;" class="icon text-white-100 my-auto">

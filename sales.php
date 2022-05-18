@@ -249,7 +249,7 @@ if(!empty($_SESSION["userId"])) {
                                                     </div>
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col-auto">
-                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['totalQuantity_sell']; ?></div>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".number_format(round($venta['totalQuantity_sell'],2), 2, '.', ','); ?></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -271,7 +271,7 @@ if(!empty($_SESSION["userId"])) {
                                                     </div>
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col-auto">
-                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".$venta['change_sell']; ?></div>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo "$".number_format(round($venta['change_sell'],2), 2, '.', ','); ?></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -352,7 +352,7 @@ if(!empty($_SESSION["userId"])) {
                                         <td><?php echo $datoVenta['id_sellDetail'];?></td>
                                         <td><?php echo $datoVenta['id_product'];?></td>
                                         <td><?php echo $datoVenta['name_product'];?></td>
-                                        <td><?php echo "$".$datoVenta['unitaryPrice_product'];?></td>
+                                        <td><?php echo "$".number_format(round($datoVenta['unitaryPrice_product'],2), 2, '.', ',');?></td>
                                         <td><?php echo $datoVenta['cuantity_sellDetail'];?></td>
                                     </tr>
                                     <?php   
